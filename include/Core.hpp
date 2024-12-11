@@ -36,9 +36,12 @@
 
 namespace nla {
     using real_t = float16_t;
-    using reals_t = float16x8_t;
+    
+    namespace internal {
+        using reals_t = float16x8_t;
 
-    constexpr real_t real_tol = 5.0E-3;
+        constexpr real_t real_tol = 5.0E-3;
+    }
 }
 
 #else
@@ -53,9 +56,12 @@ namespace nla {
 
 namespace nla {
     using real_t = float32_t;
-    using reals_t = float32x4_t;
+    
+    namespace internal {
+        using reals_t = float32x4_t;
 
-    constexpr real_t real_tol = 1.0E-7;
+        constexpr real_t real_tol = 1.0E-7;
+    }
 }
 
 #else // 64-bit floating-point.
@@ -69,9 +75,12 @@ namespace nla {
 
 namespace nla {
     using real_t = float64_t;
-    using reals_t = float64x2_t;
+    
+    namespace internal {
+        using reals_t = float64x2_t;
 
-    constexpr real_t real_tol = 1.0E-14;
+        constexpr real_t real_tol = 1.0E-14;
+    }
 }
 
 #endif
@@ -82,7 +91,9 @@ namespace nla {
 namespace nla {
     using real_t = double;
 
-    constexpr real_t real_tol = 1.0E-14;
+    namespace internal {
+        constexpr real_t real_tol = 1.0E-14;
+    }
 }
 
 #endif
