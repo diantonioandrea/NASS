@@ -18,7 +18,11 @@
 
 // Neon support and floating-point types.
 
-#if defined(LOOP_OFFSET) || defined(LOOP_OFFSET)
+#if defined(LOOP_OFFSET) || defined(MEMORY_OFFSET)
+#error "Unsafe constant definition."
+#endif
+
+#if defined(MEMORY_OFFSET_0) || defined(MEMORY_OFFSET_1) || defined(MEMORY_OFFSET_2) || defined(MEMORY_OFFSET_3)
 #error "Unsafe constant definition."
 #endif
 
@@ -84,6 +88,14 @@ namespace nla {
 }
 
 #endif
+
+// Multiple offsets for loop-unrolling.
+
+#define MEMORY_OFFSET_0 0
+#define MEMORY_OFFSET_1 MEMORY_OFFSET
+#define MEMORY_OFFSET_2 MEMORY_OFFSET * 2
+#define MEMORY_OFFSET_3 MEMORY_OFFSET * 3
+
 #endif
 
 #else // Missing Neon support.
