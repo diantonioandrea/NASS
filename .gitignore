@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# VSCode.
+.vscode/
+
+# Directories.
+executables/
+objects/
