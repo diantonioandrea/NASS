@@ -1,6 +1,6 @@
-# NARSK
+# NASS
 
-_**N**eon **A**ccelerated **R**eal **S**ketched **S**olver_
+_**N**eon **A**ccelerated **S**ketched **S**olver_
 
 ## Introduction
 
@@ -17,8 +17,8 @@ An implementation of the [Randomized Sketched GMRES with Truncated Arnoldi Ortho
 
 ### Cloning the Repository
 
-Clone the repository from [here](https://github.com/diantonioandrea/NARSK):
+Clone the repository from [here](https://github.com/diantonioandrea/NASS):
 
 ```bash
-git clone git@github.com:diantonioandrea/NARSK.git
+git clone git@github.com:diantonioandrea/NASS.git
 ```
