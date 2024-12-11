@@ -88,6 +88,7 @@ namespace nla {
 }
 
 #endif
+#endif
 
 // Multiple offsets for loop-unrolling.
 
@@ -95,8 +96,6 @@ namespace nla {
 #define MEMORY_OFFSET_1 MEMORY_OFFSET
 #define MEMORY_OFFSET_2 MEMORY_OFFSET * 2
 #define MEMORY_OFFSET_3 MEMORY_OFFSET * 3
-
-#endif
 
 #else // Missing Neon support.
 
