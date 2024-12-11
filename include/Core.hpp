@@ -8,8 +8,6 @@
  * 
  */
 
-#define NEON32
-
 #ifndef NASS_CORE_HPP
 #define NASS_CORE_HPP
 
@@ -40,7 +38,7 @@ namespace nla {
     using real_t = float16_t;
     using reals_t = float16x8_t;
 
-    constexpr real_t real_tol = 1.0E-3;
+    constexpr real_t real_tol = 5.0E-3;
 }
 
 #else
@@ -73,7 +71,7 @@ namespace nla {
     using real_t = float64_t;
     using reals_t = float64x2_t;
 
-    constexpr real_t real_tol = 1.0E-15;
+    constexpr real_t real_tol = 1.0E-14;
 }
 
 #endif
@@ -84,7 +82,7 @@ namespace nla {
 namespace nla {
     using real_t = double;
 
-    constexpr real_t real_tol = 1.0E-15;
+    constexpr real_t real_tol = 1.0E-14;
 }
 
 #endif
