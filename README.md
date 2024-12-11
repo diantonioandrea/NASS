@@ -4,7 +4,7 @@ _**N**eon **A**ccelerated **S**ketched **S**olver_
 
 ## Introduction
 
-An implementation of the [Randomized Sketched GMRES with Truncated Arnoldi Orthogonalization](https://doi.org/10.48550/arXiv.2111.00113) for real linear systems utilizing [_Neon_](https://developer.arm.com/Architectures/Neon) intrinsics, written in `C++23`.
+An implementation of a [Randomized Sketched GMRES with Truncated Arnoldi Orthogonalization](https://doi.org/10.48550/arXiv.2111.00113) for real linear systems utilizing [_Neon_](https://developer.arm.com/Architectures/Neon) intrinsics, written in `C++23`.
 
 ## Table of Contents
 
