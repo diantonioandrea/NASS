@@ -92,8 +92,8 @@ namespace nla {
 
 // Multiple offsets for loop-unrolling.
 
-#define MEMORY_OFFSET_0 0
-#define MEMORY_OFFSET_1 MEMORY_OFFSET
+#define MEMORY_OFFSET_0 MEMORY_OFFSET * 0 // Superfluous.
+#define MEMORY_OFFSET_1 MEMORY_OFFSET * 1 // Superfluous.
 #define MEMORY_OFFSET_2 MEMORY_OFFSET * 2
 #define MEMORY_OFFSET_3 MEMORY_OFFSET * 3
 
