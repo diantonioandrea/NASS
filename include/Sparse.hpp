@@ -19,9 +19,15 @@
 namespace nass {
     namespace internal {
 
-        // Load.
+        // Load. [!] These two methods can be unified.
 
-        std::tuple<natural_t, natural_t*, natural_t*, real_t*> Spc_St_NNvNvRv(const std::string&);
+        [[nodiscard]] std::tuple<natural_t, natural_t*, natural_t*, real_t*> Spc_St_NNvNvRv(const std::string&);
+        [[nodiscard]] std::tuple<natural_t, natural_t*, natural_t*, real_t*> Spr_St_NNvNvRv(const std::string&);
+
+        // Products.
+
+        void Mlc_RvtNNvNvRvRv_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*);
+        void Mlr_RvtNNvNvRvRv_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*);
 
     }
 }
