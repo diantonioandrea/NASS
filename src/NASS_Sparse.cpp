@@ -10,6 +10,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 #include "../include/Sparse.hpp"
 
@@ -37,9 +38,12 @@ namespace nass {
             std::istringstream Ss0(St1);
 
             // Parameters.
-            Ss0 >> N0;
-            Ss0 >> N1;
-            Ss0 >> N2;
+            Ss0 >> N0; // Rows.
+            Ss0 >> N1; // Columns.
+            Ss0 >> N2; // Entries.
+
+            // Square check.
+            assert(N0 == N1);
 
             // Initialization.
             natural_t* Nv0 = new natural_t[N1 + 1];
@@ -53,12 +57,9 @@ namespace nass {
                 std::istringstream Ss1(St1);
 
                 // Coordinates and entry.
-                Ss1 >> N1;
-                Ss1 >> N2;
-                Ss1 >> R0;
-
-                --N1;
-                --N2;
+                Ss1 >> N1; --N1; // Row.
+                Ss1 >> N2; --N2; // Column.
+                Ss1 >> R0; // Entry.
 
                 for(; N3 < N2; ++N3)
                     Nv0[N3 + 1] = N4;
