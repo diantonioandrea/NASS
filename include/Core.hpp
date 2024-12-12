@@ -13,17 +13,29 @@
 
 #include <cstddef>
 
+// Checks.
+
+#ifndef NDEBUG
+
+#ifdef _OPENMP
+#pragma message "OpenMP supported."
+#else
+#pragma message "OpenMP NOT supported."
+#endif
+
+#ifdef __ARM_NEON
+#pragma message "Neon supported."
+#else
+#pragma message "Neon NOT supported."
+#endif
+
+#endif
 
 // OpenMP support.
 
 #ifdef _OPENMP
 #include <omp.h>
-
-#ifndef NDEBUG
-#pragma message "OpenMP supported."
 #endif
-#endif
-
 
 // Neon support and floating-point types.
 
@@ -33,10 +45,6 @@
 
 #ifdef __ARM_NEON
 #include <arm_neon.h>
-
-#ifndef NDEBUG
-#pragma message "Neon supported."
-#endif
 
 #ifdef NEON16 // 16-bit floating-point.
 
@@ -115,7 +123,6 @@ namespace nass {
 }
 
 #endif
-
 
 // Integral types.
 
