@@ -177,7 +177,7 @@ namespace nass {
 
             #else
 
-            #pragma omp parallel for reduction(+: R0, R1)
+            #pragma omp parallel for
             for(natural_t N1 = 0; N1 < N0 - 3; N1 += 4) {
                 Rvt0[N1] /= R0;
                 Rvt0[N1 + 1] /= R0;
