@@ -1,7 +1,7 @@
 /**
  * @file Reals.hpp
  * @author Andrea Di Antonio (github.com/diantonioandrea)
- * @brief reals_t operations.
+ * @brief real_t, reals_t methods.
  * @date 2024-12-11
  * 
  * @copyright Copyright (c) 2024
@@ -12,9 +12,6 @@
 #define NASS_REALS_HPP
 
 #include "./Core.hpp"
-
-
-// Operations.
 
 #ifdef __ARM_NEON
 
@@ -222,4 +219,43 @@ namespace nass {
 }
 
 #endif
+
+namespace nass {
+    namespace internal {
+
+        // Output.
+
+        /**
+         * @brief Prints a real_t.
+         * 
+         * @param R0 
+         */
+        static inline void Pr_R_0(const real_t& R0) {
+            if(R0 > 0.0)
+                std::print(" ");
+
+            if(std::abs(R0) < real_tol)
+                std::print("\x1b[2m{:.3e}\033[0m ", 0.0);
+            else
+                std::print("{:.3e} ", R0);
+        }
+
+        /**
+         * @brief Prints (new line) a real_t.
+         * 
+         * @param R0 
+         */
+        static inline void Pn_R_0(const real_t& R0) {
+            if(R0 > 0.0)
+                std::print(" ");
+
+            if(std::abs(R0) < real_tol)
+                std::println("\x1b[2m{:.3e}\033[0m", 0.0);
+            else
+                std::println("{:.3e}", R0);
+        }
+
+    }
+}
+
 #endif
