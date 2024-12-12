@@ -8,13 +8,13 @@
  * 
  */
 
-#include <cassert>
 #include <iostream>
+#include <cassert>
 
 #include "../include/Vectors.hpp"
 
 #ifdef _OPENMP
-namespace nla {
+namespace nass {
     namespace internal {
         void Rd_RstRs_0(reals_t &Rst0, const reals_t &Rs0) { Rst0 = Ad_RsRs_Rs(Rst0, Rs0); }
         void In_Rst_0(reals_t &Rst0) { Rst0 = Ex_R_Rs(0.0); }
@@ -24,7 +24,7 @@ namespace nla {
 }
 #endif
 
-namespace nla {
+namespace nass {
     namespace internal {
         
         /**
@@ -108,7 +108,8 @@ namespace nla {
 
                 return R0;
             }
-            #endif
+
+            #else
 
             real_t R0 = 0.0;
             real_t R1 = 0.0;
@@ -127,6 +128,8 @@ namespace nla {
                 R0 += Rv0[N1 + 0] * Rv1[N1 + 0];
 
             return R0 + R1 + R2 + R3;
+
+            #endif
         }
 
     }

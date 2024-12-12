@@ -18,7 +18,7 @@
 
 #ifdef __ARM_NEON
 
-namespace nla {
+namespace nass {
     namespace internal {
 
         // Loading.

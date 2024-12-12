@@ -15,7 +15,7 @@
 
 #include "./Reals.hpp"
 
-namespace nla {
+namespace nass {
     namespace internal {
 
         // Copy.

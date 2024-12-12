@@ -47,7 +47,7 @@
 #define LOOP_OFFSET 32
 #define MEMORY_OFFSET 8
 
-namespace nla {
+namespace nass {
     using real_t = float16_t;
     
     namespace internal {
@@ -67,7 +67,7 @@ namespace nla {
 #define LOOP_OFFSET 16
 #define MEMORY_OFFSET 4
 
-namespace nla {
+namespace nass {
     using real_t = float32_t;
     
     namespace internal {
@@ -86,7 +86,7 @@ namespace nla {
 #define LOOP_OFFSET 8
 #define MEMORY_OFFSET 2
 
-namespace nla {
+namespace nass {
     using real_t = float64_t;
     
     namespace internal {
@@ -108,7 +108,7 @@ namespace nla {
 
 #else // Missing Neon support.
 
-namespace nla {
+namespace nass {
     using real_t = double;
 
     namespace internal {
@@ -121,7 +121,7 @@ namespace nla {
 
 // Integral types.
 
-namespace nla {
+namespace nass {
     using natural_t = std::size_t;
     using integer_t = std::ptrdiff_t;
 }
