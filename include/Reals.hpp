@@ -208,6 +208,33 @@ namespace nass {
             #endif
         }
 
+        // Division.
+
+        /**
+         * @brief Divides two reals_t.
+         * 
+         * @param Rs0 Vectorized real number [Rs].
+         * @param Rs1 Vectorized real number [Rs].
+         * @return reals_t Vectorized real number [Rs].
+         */
+        static inline reals_t Dv_RsRs_Rs(const reals_t& Rs0, const reals_t& Rs1) {
+            #ifdef NEON16
+
+            return vdivq_f16(Rs0, Rs1);
+
+            #else 
+            #ifdef NEON32
+
+            return vdivq_f32(Rs0, Rs1);
+
+            #else // NEON64.
+
+            return vdivq_f64(Rs0, Rs1);
+
+            #endif
+            #endif
+        }
+
         // Reduce (OpenMP).
 
         #ifdef _OPENMP
