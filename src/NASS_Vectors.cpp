@@ -8,8 +8,9 @@
  * 
  */
 
-#include <iostream>
-#include <cassert>
+#include <print>
+#include <cmath>
+#include <cstring>
 
 #include "../include/Vectors.hpp"
 
@@ -92,6 +93,40 @@ namespace nass {
             return R0 + R1;
 
             #endif
+        }
+
+
+        /**
+         * @brief Prints a (row) real_t*.
+         * 
+         * @param Rrv0 Real row vector [Rrv].
+         * @param N0 Natural number [N].
+         */
+        void Pr_RrvN_0(const real_t* Rrv0, const natural_t& N0) {
+            std::println("--- Row vector.");
+
+            for(natural_t N1 = 0; N1 < N0; ++N1) {
+                Pr_R_0(Rrv0[N1]);
+            }
+
+            std::println("\n---");
+        }
+
+
+        /**
+         * @brief Prints a (column) real_t*.
+         * 
+         * @param Rcv0 Real column vector [Rcv].
+         * @param N0 Natural number [N].
+         */
+        void Pr_RcvN_0(const real_t* Rcv0, const natural_t& N0) {
+            std::println("--- Column vector.");
+
+            for(natural_t N1 = 0; N1 < N0; ++N1) {
+                Pn_R_0(Rcv0[N1]);
+            }
+
+            std::println("---");
         }
 
     }
