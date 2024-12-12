@@ -16,7 +16,6 @@
 namespace nass {
     namespace internal {
 
-        
         /**
          * @brief Loads a (CSC) sparse matrix from a file.
          * 
