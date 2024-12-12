@@ -14,7 +14,6 @@
 
 #include "../include/Vectors.hpp"
 
-
 namespace nass {
     namespace internal {
         
