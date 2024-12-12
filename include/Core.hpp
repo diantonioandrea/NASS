@@ -27,7 +27,7 @@
 
 // Neon support and floating-point types.
 
-#if defined(LOOP_OFFSET) || defined(MEMORY_OFFSET) || defined(MEMORY_OFFSET_0) || defined(MEMORY_OFFSET_1) || defined(MEMORY_OFFSET_2) || defined(MEMORY_OFFSET_3)
+#if defined(LOOP_OFFSET) || defined(MEMORY_OFFSET) || defined(MEMORY_OFFSET_0) || defined(MEMORY_OFFSET_1)
 #error "Unsafe constant definition."
 #endif
 
@@ -44,7 +44,7 @@
 #error "Unsafe constant definition."
 #endif
 
-#define LOOP_OFFSET 32
+#define LOOP_OFFSET 16
 #define MEMORY_OFFSET 8
 
 namespace nass {
@@ -64,7 +64,7 @@ namespace nass {
 #error "Unsafe constant definition."
 #endif
 
-#define LOOP_OFFSET 16
+#define LOOP_OFFSET 8
 #define MEMORY_OFFSET 4
 
 namespace nass {
@@ -83,7 +83,7 @@ namespace nass {
 #define NEON64
 #endif
 
-#define LOOP_OFFSET 8
+#define LOOP_OFFSET 4
 #define MEMORY_OFFSET 2
 
 namespace nass {
@@ -103,8 +103,6 @@ namespace nass {
 
 #define MEMORY_OFFSET_0 MEMORY_OFFSET * 0 // Superfluous.
 #define MEMORY_OFFSET_1 MEMORY_OFFSET * 1 // Superfluous.
-#define MEMORY_OFFSET_2 MEMORY_OFFSET * 2
-#define MEMORY_OFFSET_3 MEMORY_OFFSET * 3
 
 #else // Missing Neon support.
 

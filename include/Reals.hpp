@@ -21,7 +21,7 @@
 namespace nass {
     namespace internal {
 
-        // Loading.
+        // Load.
 
         /**
          * @brief Loads a reals_t from a real_t*.
@@ -47,7 +47,7 @@ namespace nass {
             #endif
         }
 
-        // Storing.
+        // Store.
 
         /**
          * @brief Stores a reals_t into a real_t*.
@@ -73,7 +73,7 @@ namespace nass {
             #endif
         }
 
-        // Expanding.
+        // Expand.
 
         /**
          * @brief Expands a real_t into a reals_t.
@@ -99,7 +99,7 @@ namespace nass {
             #endif
         }
 
-        // Reducing.
+        // Reduce.
 
         /**
          * @brief Reduce a reals_t into a real_
@@ -209,7 +209,7 @@ namespace nass {
             #endif
         }
 
-        // Reducing (OpenMP).
+        // Reduce (OpenMP).
 
         #ifdef _OPENMP
         static inline void Rd_RstRs_0(reals_t &Rst0, const reals_t &Rs0) { Rst0 = Ad_RsRs_Rs(Rst0, Rs0); }
