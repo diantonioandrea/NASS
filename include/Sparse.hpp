@@ -21,7 +21,7 @@ namespace nass {
 
         // Load.
 
-        std::tuple<natural_t, natural_t*, natural_t*, real_t*> Sp_St_Sc(const std::string&);
+        std::tuple<natural_t, natural_t*, natural_t*, real_t*> Spc_St_NNvNvRv(const std::string&);
 
     }
 }

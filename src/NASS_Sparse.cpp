@@ -23,7 +23,7 @@ namespace nass {
          * @param St String [St]
          * @return std::tuple<natural_t*, natural_t*, real_t*> (CSC) sparse matrix [Sc].
          */
-        std::tuple<natural_t, natural_t*, natural_t*, real_t*> Sp_St_Sc(const std::string& St0) {
+        std::tuple<natural_t, natural_t*, natural_t*, real_t*> Spc_St_NNvNvRv(const std::string& St0) {
             natural_t N0, N1, N2, N3 = 0, N4 = 0;
             real_t R0;
             
