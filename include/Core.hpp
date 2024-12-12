@@ -11,8 +11,6 @@
 #ifndef NASS_CORE_HPP
 #define NASS_CORE_HPP
 
-// Includes.
-
 #include <cstddef>
 
 
