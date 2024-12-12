@@ -61,6 +61,10 @@ namespace nass {
                 Ss1 >> N2; --N2; // Column.
                 Ss1 >> R0; // Entry.
 
+                // Sparse check.
+                if(std::abs(R0) < real_tol)
+                    continue;
+
                 for(; N3 < N2; ++N3)
                     Nv0[N3 + 1] = N4;
 
