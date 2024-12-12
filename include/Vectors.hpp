@@ -26,6 +26,11 @@ namespace nass {
 
         real_t Dt_RvRvN_R(const real_t*, const real_t*, const natural_t&);
 
+        // Norm.
+
+        real_t Nr_RvN_R(const real_t*, const natural_t&);
+        void Nrz_RvN_0(real_t*, const natural_t&);
+
         // Output.
 
         void Pr_RrvN_0(const real_t*, const natural_t&);
