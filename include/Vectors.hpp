@@ -11,8 +11,6 @@
 #ifndef NASS_VECTORS_HPP
 #define NASS_VECTORS_HPP
 
-#include <cstring>
-
 #include "./Reals.hpp"
 
 namespace nass {
@@ -27,6 +25,11 @@ namespace nass {
         // Dot product.
 
         real_t Dt_RvRvN_R(const real_t*, const real_t*, const natural_t&);
+
+        // Output.
+
+        void Pr_RrvN_0(const real_t*, const natural_t&);
+        void Pr_RcvN_0(const real_t*, const natural_t&);
 
     }
 }
