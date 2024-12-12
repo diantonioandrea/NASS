@@ -11,8 +11,6 @@
 #ifndef NASS_REALS_HPP
 #define NASS_REALS_HPP
 
-// Core.
-
 #include "./Core.hpp"
 
 
