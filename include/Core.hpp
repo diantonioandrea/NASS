@@ -14,6 +14,17 @@
 #include <cstddef>
 
 
+// OpenMP support.
+
+#ifdef _OPENMP
+#include <omp.h>
+
+#ifndef NDEBUG
+#pragma message "OpenMP supported."
+#endif
+#endif
+
+
 // Neon support and floating-point types.
 
 #if defined(LOOP_OFFSET) || defined(MEMORY_OFFSET) || defined(MEMORY_OFFSET_0) || defined(MEMORY_OFFSET_1) || defined(MEMORY_OFFSET_2) || defined(MEMORY_OFFSET_3)
@@ -22,6 +33,10 @@
 
 #ifdef __ARM_NEON
 #include <arm_neon.h>
+
+#ifndef NDEBUG
+#pragma message "Neon supported."
+#endif
 
 #ifdef NEON16 // 16-bit floating-point.
 
