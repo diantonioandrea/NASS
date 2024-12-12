@@ -11,6 +11,8 @@
 #ifndef NASS_REALS_HPP
 #define NASS_REALS_HPP
 
+#include <print>
+
 #include "./Core.hpp"
 
 #ifdef __ARM_NEON
