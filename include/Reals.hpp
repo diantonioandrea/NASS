@@ -55,7 +55,7 @@ namespace nla {
          * @param Rvt0 Real vector [Rv], target [t].
          * @param Rs0 Vectorized real number [Rs].
          */
-        static inline void St_RvtRs_0(real_t* Rvt0, const reals_t &Rs0) {
+        static inline void St_RvtRs_0(real_t* Rvt0, const reals_t& Rs0) {
             #ifdef NEON16
 
             vst1q_f16(Rvt0, Rs0);
@@ -81,7 +81,7 @@ namespace nla {
          * @param R0 Real number [R].
          * @return reals_t Vectorized real number [Rs].
          */
-        static inline reals_t Ex_R_Rs(const real_t &R0) {
+        static inline reals_t Ex_R_Rs(const real_t& R0) {
             #ifdef NEON16
 
             return vdupq_n_f16(R0);
@@ -107,7 +107,7 @@ namespace nla {
          * @param Rs0 Real number [R].
          * @return real_t Vectorized real number [Rs].
          */
-        static inline real_t Rd_Rs_R(const reals_t &Rs0) {
+        static inline real_t Rd_Rs_R(const reals_t& Rs0) {
             #ifdef NEON16
 
             const float16x4_t Rs1 = vadd_f16(vget_low_f16(Rs0), vget_high_f16(Rs0));
@@ -137,7 +137,7 @@ namespace nla {
          * @param Rs1 Vectorized real number [Rs].
          * @return reals_t Vectorized real number [Rs].
          */
-        static inline reals_t Ad_RsRs_Rs(const reals_t &Rs0, const reals_t &Rs1) {
+        static inline reals_t Ad_RsRs_Rs(const reals_t& Rs0, const reals_t& Rs1) {
             #ifdef NEON16
 
             return vaddq_f16(Rs0, Rs1);
@@ -164,7 +164,7 @@ namespace nla {
          * @param Rs1 Vectorized real number [Rs].
          * @return reals_t Vectorized real number [Rs].
          */
-        static inline reals_t Sb_RsRs_Rs(const reals_t &Rs0, const reals_t &Rs1) {
+        static inline reals_t Sb_RsRs_Rs(const reals_t& Rs0, const reals_t& Rs1) {
             #ifdef NEON16
 
             return vsubq_f16(Rs0, Rs1);
@@ -191,7 +191,7 @@ namespace nla {
          * @param Rs1 Vectorized real number [Rs].
          * @return reals_t Vectorized real number [Rs].
          */
-        static inline reals_t Ml_RsRs_Rs(const reals_t &Rs0, const reals_t &Rs1) {
+        static inline reals_t Ml_RsRs_Rs(const reals_t& Rs0, const reals_t& Rs1) {
             #ifdef NEON16
 
             return vmulq_f16(Rs0, Rs1);
