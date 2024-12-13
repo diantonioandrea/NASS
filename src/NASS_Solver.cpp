@@ -33,17 +33,17 @@ namespace nass {
             const auto [Nv2, Nv3, Rv2] = Sec_NN_NvNvRv(N1, N0);
 
             // Basis.
-            real_t* Mv0 = new real_t[N0 * N1];
+            real_t* Rm0 = new real_t[N0 * N1];
 
             // LS matrix.
-            real_t* Mv1 = new real_t[N0 * N1];
+            real_t* Rm1 = new real_t[N0 * N1];
 
             // Sketch matrix.
-            real_t* Mv2 = new real_t[N3 * N1];
+            real_t* Rm2 = new real_t[N3 * N1];
 
             // (Thin) QR matrices.
-            real_t* Mv3 = new real_t[N3 * N1];
-            real_t* Mv4 = new real_t[N1 * N1];
+            real_t* Rm3 = new real_t[N3 * N1];
+            real_t* Rm4 = new real_t[N1 * N1];
 
             // Minimizer.
             real_t* Rv3 = new real_t[N1];
@@ -60,44 +60,44 @@ namespace nass {
             Mlc_RvtNNvNvRvRv_0(Rv5, N0, Nv2, Nv3, Rv2, Rv4);
 
             // First basis column.
-            Cp_RvtRvN_0(Mv0, Rv4, N0);
-            Nrz_RvN_0(Mv0, N0);
+            Cp_RvtRvN_0(Rm0, Rv4, N0);
+            Nrz_RvN_0(Rm0, N0);
 
             // First LS column.
-            Mlc_RvtNNvNvRvRv_0(Mv1, N0, Nv0, Nv1, Rv0, Mv0);
+            Mlc_RvtNNvNvRvRv_0(Rm1, N0, Nv0, Nv1, Rv0, Rm0);
 
             // Truncated Arnoldi, first columns.
             for(natural_t N4 = 1; N4 < N2; ++N4) {
                 
                 // Copy.
-                Cp_RvtRvN_0(Mv0 + N4 * N0, Mv1 + (N4 - 1) * N0, N0);
+                Cp_RvtRvN_0(Rm0 + N4 * N0, Rm1 + (N4 - 1) * N0, N0);
 
                 // Orthogonalization.
                 for(natural_t N5 = 1; N5 <= N4; ++N5)
-                    Prj_RvtRvRvN_0(Mv0 + N4 * N0, Mv0 + (N4 - N5) * N0, Mv1 + (N4 - 1) * N0, N0);
+                    Prj_RvtRvRvN_0(Rm0 + N4 * N0, Rm0 + (N4 - N5) * N0, Rm1 + (N4 - 1) * N0, N0);
 
                 // Normalization.
-                Nrz_RvN_0(Mv0 + N4 * N0, N0);
+                Nrz_RvN_0(Rm0 + N4 * N0, N0);
 
                 // LS matrix.
-                Mlc_RvtNNvNvRvRv_0(Mv1 + N4 * N0, N0, Nv0, Nv1, Rv0, Mv0 + N4 * N0);
+                Mlc_RvtNNvNvRvRv_0(Rm1 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm0 + N4 * N0);
             }
             
             // Truncated Arnoldi, last columns.
             for(natural_t N4 = N2; N4 < N1; ++N4) {
                 
                 // Copy.
-                Cp_RvtRvN_0(Mv0 + N4 * N0, Mv0 + (N4 - 1) * N0, N0);
+                Cp_RvtRvN_0(Rm0 + N4 * N0, Rm0 + (N4 - 1) * N0, N0);
 
                 // Orthogonalization.
                 for(natural_t N5 = 1; N5 <= N2; ++N5)
-                    Prj_RvtRvRvN_0(Mv0 + N4 * N0, Mv0 + (N4 - N5) * N0, Mv1 + (N4 - 1) * N0, N0);
+                    Prj_RvtRvRvN_0(Rm0 + N4 * N0, Rm0 + (N4 - N5) * N0, Rm1 + (N4 - 1) * N0, N0);
 
                 // Normalization.
-                Nrz_RvN_0(Mv0 + N4 * N0, N0);
+                Nrz_RvN_0(Rm0 + N4 * N0, N0);
 
                 // LS matrix.
-                Mlc_RvtNNvNvRvRv_0(Mv1 + N4 * N0, N0, Nv0, Nv1, Rv0, Mv0 + N4 * N0);
+                Mlc_RvtNNvNvRvRv_0(Rm1 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm0 + N4 * N0);
             }
 
             // Sketch matrix.
@@ -118,10 +118,10 @@ namespace nass {
 
             // Clean-up.
             delete[] Nv2; delete[] Nv3; delete[] Rv2;
-            delete[] Mv0;
-            delete[] Mv1;
-            delete[] Mv2;
-            delete[] Mv3; delete[] Mv4;
+            delete[] Rm0;
+            delete[] Rm1;
+            delete[] Rm2;
+            delete[] Rm3; delete[] Rm4;
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
         }
