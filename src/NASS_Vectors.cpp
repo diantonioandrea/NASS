@@ -27,19 +27,30 @@ namespace nass {
         void Cp_RvtRvN_0(real_t* Rvt0, const real_t* Rv0, const natural_t& N0) {
             #ifdef __ARM_NEON
 
-            natural_t N1;
-
             #pragma omp parallel for
-            for(N1 = 0; N1 < N0 - LOOP_OFFSET + 1; N1 += LOOP_OFFSET) {
+            for(natural_t N1 = 0; N1 < N0 - LOOP_OFFSET + 1; N1 += LOOP_OFFSET) {
                 St_RvtRs_0(Rvt0 + N1 + MEMORY_OFFSET_0, Ld_Rv_Rs(Rv0 + N1 + MEMORY_OFFSET_0));
                 St_RvtRs_0(Rvt0 + N1 + MEMORY_OFFSET_1, Ld_Rv_Rs(Rv0 + N1 + MEMORY_OFFSET_1));
             }
 
-            for(N1 = N0 - (N0 % LOOP_OFFSET); N1 < N0; ++N1)
+            for(natural_t N1 = N0 - (N0 % LOOP_OFFSET); N1 < N0; ++N1)
+                Rvt0[N1] = Rv0[N1];
+
+            #else
+            #ifdef _OPENMP
+
+            #pragma omp parallel for
+            for(natural_t N1 = 0; N1 < N0 - 1; N1 += 2) {
+                Rvt0[N1] = Rv0[N1];
+                Rvt0[N1 + 1] = Rv0[N1 + 1];
+            }
+
+            for(natural_t N1 = N0 - (N0 % 2); N1 < N0; ++N1)
                 Rvt0[N1] = Rv0[N1];
 
             #else
             memcpy(Rvt0, Rv0, N0 * sizeof(real_t));
+            #endif
             #endif
         }
 
@@ -81,7 +92,7 @@ namespace nass {
             real_t R0 = 0.0, R1 = 0.0;
 
             #pragma omp parallel for reduction(+: R0, R1)
-            for(natural_t N1 = 0; N1 < N0 - 3; N1 += 4) {
+            for(natural_t N1 = 0; N1 < N0 - 1; N1 += 2) {
                 R0 += Rv0[N1] * Rv1[N1];
                 R1 += Rv0[N1 + 1] * Rv1[N1 + 1];
             }
@@ -131,7 +142,7 @@ namespace nass {
             real_t R0 = 0.0, R1 = 0.0;
 
             #pragma omp parallel for reduction(+: R0, R1)
-            for(natural_t N1 = 0; N1 < N0 - 3; N1 += 4) {
+            for(natural_t N1 = 0; N1 < N0 - 1; N1 += 2) {
                 const real_t R3 = Rv0[N1], R4 = Rv0[N1 + 1];
 
                 R0 += R3 * R3;
@@ -178,7 +189,7 @@ namespace nass {
             #else
 
             #pragma omp parallel for
-            for(natural_t N1 = 0; N1 < N0 - 3; N1 += 4) {
+            for(natural_t N1 = 0; N1 < N0 - 1; N1 += 2) {
                 Rvt0[N1] /= R0;
                 Rvt0[N1 + 1] /= R0;
             }
