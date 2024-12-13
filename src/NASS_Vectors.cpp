@@ -202,6 +202,53 @@ namespace nass {
 
 
         /**
+         * @brief Projection onto a real_t*.
+         * 
+         * @param Rvt0 Real vector [Rv], target [t].
+         * @param Rv0 Real vector [Rv].
+         * @param Rv1 Real vector [Rv].
+         * @param N0 Natural number [N].
+         */
+        void Prj_RvtRvRvN_0(real_t* Rvt0, const real_t* Rv0, const real_t* Rv1, const natural_t& N0) {
+            const real_t R0 = Dt_RvRvN_R(Rv0, Rv1, N0);
+
+            #ifdef _NEON
+            
+            const reals_t Rs0 = Ex_R_Rs(R0);
+            
+            #pragma omp parallel for
+            for(natural_t N1 = 0; N1 < N0 - LOOP_OFFSET + 1; N1 += LOOP_OFFSET) {
+                const reals_t Rs1 = Ld_Rv_Rs(Rvt0 + N1 + MEMORY_OFFSET_0);
+                const reals_t Rs2 = Ld_Rv_Rs(Rvt0 + N1 + MEMORY_OFFSET_1);
+
+                const reals_t Rs3 = Ml_RsRs_Rs(Ld_Rv_Rs(Rv1 + N1 + MEMORY_OFFSET_0), Rs0);
+                const reals_t Rs4 = Ml_RsRs_Rs(Ld_Rv_Rs(Rv1 + N1 + MEMORY_OFFSET_1), Rs0);
+
+                St_RvtRs_0(Rvt0 + N1 + MEMORY_OFFSET_0, Sb_RsRs_Rs(Rs1, Rs3));
+                St_RvtRs_0(Rvt0 + N1 + MEMORY_OFFSET_1, Sb_RsRs_Rs(Rs2, Rs4));
+            }
+
+            for(natural_t N1 = N0 - (N0 % LOOP_OFFSET); N1 < N0; ++N1) {
+                Rvt0[N1] -= R0 * Rv1[N1];
+            }
+
+            #else
+
+            #pragma omp parallel for
+            for(natural_t N1 = 0; N1 < N0 - 1; N1 += 2) {
+                Rvt0[N1] -= R0 * Rv1[N1];
+                Rvt0[N1 + 1] -= R0 * Rv1[N1 + 1];
+            }
+
+            for(natural_t N1 = N0 - (N0 % 2); N1 < N0; ++N1) {
+                Rvt0[N1] -= R0 * Rv1[N1];
+            }
+
+            #endif
+        }
+
+
+        /**
          * @brief Prints a (row) real_t*.
          * 
          * @param Rrv0 Real row vector [Rrv].
