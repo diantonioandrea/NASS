@@ -54,7 +54,7 @@ namespace nass {
 
 
             // Residual.
-            // [!]
+            RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rvt0, Rv1);
 
             // Residual sketch.
             Mlc_RvtNNvNvRvRv_0(Rv5, N0, Nv2, Nv3, Rv2, Rv4);
@@ -66,8 +66,54 @@ namespace nass {
             // First LS column.
             Mlc_RvtNNvNvRvRv_0(Mv1, N0, Nv0, Nv1, Rv0, Mv0);
 
+            // Truncated Arnoldi, first columns.
+            for(natural_t N4 = 1; N4 < N2; ++N4) {
+                
+                // Copy.
+                Cp_RvtRvN_0(Mv0 + N4 * N0, Mv1 + (N4 - 1) * N0, N0);
 
-            // ...
+                // Orthogonalization.
+                for(natural_t N5 = 1; N5 <= N4; ++N5)
+                    Prj_RvtRvRvN_0(Mv0 + N4 * N0, Mv0 + (N4 - N5) * N0, Mv1 + (N4 - 1) * N0, N0);
+
+                // Normalization.
+                Nrz_RvN_0(Mv0 + N4 * N0, N0);
+
+                // LS matrix.
+                Mlc_RvtNNvNvRvRv_0(Mv1 + N4 * N0, N0, Nv0, Nv1, Rv0, Mv0 + N4 * N0);
+            }
+            
+            // Truncated Arnoldi, last columns.
+            for(natural_t N4 = N2; N4 < N1; ++N4) {
+                
+                // Copy.
+                Cp_RvtRvN_0(Mv0 + N4 * N0, Mv0 + (N4 - 1) * N0, N0);
+
+                // Orthogonalization.
+                for(natural_t N5 = 1; N5 <= N2; ++N5)
+                    Prj_RvtRvRvN_0(Mv0 + N4 * N0, Mv0 + (N4 - N5) * N0, Mv1 + (N4 - 1) * N0, N0);
+
+                // Normalization.
+                Nrz_RvN_0(Mv0 + N4 * N0, N0);
+
+                // LS matrix.
+                Mlc_RvtNNvNvRvRv_0(Mv1 + N4 * N0, N0, Nv0, Nv1, Rv0, Mv0 + N4 * N0);
+            }
+
+            // Sketch matrix.
+            // [!]
+
+            // (Thin) QR.
+            // [!]
+
+            // (Reduced) LS problem.
+            // [!]
+
+            // Residual estimation.
+            // [!]
+
+            // Solution update.
+            // [!]
 
 
             // Clean-up.
