@@ -80,6 +80,9 @@ namespace nass {
             for(; N3 < N0; ++N3)
                 Nv0[N3 + 1] = N4;
 
+            // File closing.
+            F0.close();
+
             return {N0, Nv0, Nv1, Rv0};
         }
 
@@ -145,6 +148,9 @@ namespace nass {
             for(; N3 < N0; ++N3)
                 Nv0[N3 + 1] = N4;
 
+            // File closing.
+            F0.close();
+
             return {N0, Nv0, Nv1, Rv0};
         }
 
@@ -182,6 +188,26 @@ namespace nass {
             for(natural_t N1 = 0; N1 < N0; ++N1)
                 for(natural_t N2 = Nv0[N1]; N2 < Nv0[N1 + 1]; ++N2)
                     Rvt0[N1] += Rv0[N2] * Rv1[Nv1[N2]];
+        }
+
+
+        /**
+         * @brief Evaluates the residual of a (CSC) sparse linear system.
+         * 
+         * @param Rvt0 Real vector [Rv], target [t].
+         * @param N0 Natural number [N].
+         * @param Nv0 Natural vector [Nv].
+         * @param Nv1 Natural vector [Nv].
+         * @param Rv0 Real vector [Rv].
+         * @param Rv1 Real vector [Rv].
+         * @param Rv2 Real vector [Rv].
+         */
+        void RMlc_RvtNNvNvRvRvRv_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const real_t* Rv2) {
+            Cp_RvtRvN_0(Rvt0, Rv2, N0);
+
+            for(natural_t N1 = 0; N1 < N0; ++N1)
+                for(natural_t N2 = Nv0[N1]; N2 < Nv0[N1 + 1]; ++N2)
+                    Rvt0[Nv1[N2]] -= Rv0[N2] * Rv1[N1];
         }
 
 
