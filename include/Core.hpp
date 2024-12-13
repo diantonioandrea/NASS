@@ -13,24 +13,6 @@
 
 #include <cstddef>
 
-// Checks.
-
-#ifndef NDEBUG
-
-#ifdef _OPENMP
-#pragma message "OpenMP supported."
-#else
-#pragma message "OpenMP NOT supported."
-#endif
-
-#ifdef __ARM_NEON
-#pragma message "Neon supported."
-#else
-#pragma message "Neon NOT supported."
-#endif
-
-#endif
-
 // OpenMP support.
 
 #ifdef _OPENMP
@@ -136,5 +118,23 @@ namespace nass {
     using natural_t = std::size_t;
     using integer_t = std::ptrdiff_t;
 }
+
+// Checks.
+
+#ifndef NDEBUG
+
+#ifdef _OPENMP
+#pragma message "OpenMP supported."
+#else
+#pragma message "OpenMP NOT supported."
+#endif
+
+#ifdef _NEON
+#pragma message "Neon supported."
+#else
+#pragma message "Neon NOT supported."
+#endif
+
+#endif
 
 #endif
