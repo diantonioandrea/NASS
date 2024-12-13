@@ -47,7 +47,6 @@ namespace nass {
 
             // (Thin) QR matrices.
             real_t* Rm3 = new real_t[N3 * N1];
-            real_t* Rm4 = new real_t[N1 * N1];
 
             // Minimizer.
             real_t* Rv3 = new real_t[N1];
@@ -130,7 +129,7 @@ namespace nass {
             delete[] Rm0;
             delete[] Rm1;
             delete[] Rm2;
-            delete[] Rm3; delete[] Rm4;
+            delete[] Rm3;
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
         }
