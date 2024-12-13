@@ -221,27 +221,27 @@ namespace nass {
                 const reals_t Rs1 = Ld_Rv_Rs(Rvt0 + N1 + MEMORY_OFFSET_0);
                 const reals_t Rs2 = Ld_Rv_Rs(Rvt0 + N1 + MEMORY_OFFSET_1);
 
-                const reals_t Rs3 = Ml_RsRs_Rs(Ld_Rv_Rs(Rv1 + N1 + MEMORY_OFFSET_0), Rs0);
-                const reals_t Rs4 = Ml_RsRs_Rs(Ld_Rv_Rs(Rv1 + N1 + MEMORY_OFFSET_1), Rs0);
+                const reals_t Rs3 = Ml_RsRs_Rs(Ld_Rv_Rs(Rv0 + N1 + MEMORY_OFFSET_0), Rs0);
+                const reals_t Rs4 = Ml_RsRs_Rs(Ld_Rv_Rs(Rv0 + N1 + MEMORY_OFFSET_1), Rs0);
 
                 St_RvtRs_0(Rvt0 + N1 + MEMORY_OFFSET_0, Sb_RsRs_Rs(Rs1, Rs3));
                 St_RvtRs_0(Rvt0 + N1 + MEMORY_OFFSET_1, Sb_RsRs_Rs(Rs2, Rs4));
             }
 
             for(natural_t N1 = N0 - (N0 % LOOP_OFFSET); N1 < N0; ++N1) {
-                Rvt0[N1] -= R0 * Rv1[N1];
+                Rvt0[N1] -= R0 * Rv0[N1];
             }
 
             #else
 
             #pragma omp parallel for
             for(natural_t N1 = 0; N1 < N0 - 1; N1 += 2) {
-                Rvt0[N1] -= R0 * Rv1[N1];
-                Rvt0[N1 + 1] -= R0 * Rv1[N1 + 1];
+                Rvt0[N1] -= R0 * Rv0[N1];
+                Rvt0[N1 + 1] -= R0 * Rv0[N1 + 1];
             }
 
             for(natural_t N1 = N0 - (N0 % 2); N1 < N0; ++N1) {
-                Rvt0[N1] -= R0 * Rv1[N1];
+                Rvt0[N1] -= R0 * Rv0[N1];
             }
 
             #endif
