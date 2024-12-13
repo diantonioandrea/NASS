@@ -15,7 +15,7 @@
 
 #include "./Core.hpp"
 
-#ifdef __ARM_NEON
+#ifdef _NEON
 
 namespace nass {
     namespace internal {

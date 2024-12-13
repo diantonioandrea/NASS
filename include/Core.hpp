@@ -39,11 +39,17 @@
 
 // Neon support and floating-point types.
 
+#ifdef __ARM_NEON
+#ifndef _NEON
+#define _NEON // Custom Neon flag.
+#endif
+#endif
+
 #if defined(LOOP_OFFSET) || defined(MEMORY_OFFSET) || defined(MEMORY_OFFSET_0) || defined(MEMORY_OFFSET_1)
 #error "Unsafe constant definition."
 #endif
 
-#ifdef __ARM_NEON
+#ifdef _NEON
 #include <arm_neon.h>
 
 #ifdef NEON16 // 16-bit floating-point.

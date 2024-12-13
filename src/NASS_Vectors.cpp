@@ -25,7 +25,7 @@ namespace nass {
          * @param N0 Natural number [N].
          */
         void Cp_RvtRvN_0(real_t* Rvt0, const real_t* Rv0, const natural_t& N0) {
-            #ifdef __ARM_NEON
+            #ifdef _NEON
 
             #pragma omp parallel for
             for(natural_t N1 = 0; N1 < N0 - LOOP_OFFSET + 1; N1 += LOOP_OFFSET) {
@@ -64,7 +64,7 @@ namespace nass {
          * @return real_t Real number [R].
          */
         real_t Dt_RvRvN_R(const real_t* Rv0, const real_t* Rv1, const natural_t& N0) {
-            #ifdef __ARM_NEON
+            #ifdef _NEON
             
             reals_t Rs0 = Ex_R_Rs(0.0), Rs1 = Ex_R_Rs(0.0);
             
@@ -114,7 +114,7 @@ namespace nass {
          * @return real_t 
          */
         real_t Nr_RvN_R(const real_t* Rv0, const natural_t& N0) {
-            #ifdef __ARM_NEON
+            #ifdef _NEON
             
             reals_t Rs0 = Ex_R_Rs(0.0), Rs1 = Ex_R_Rs(0.0);
             
@@ -170,7 +170,7 @@ namespace nass {
         void Nrz_RvN_0(real_t* Rvt0, const natural_t& N0) {
             const real_t R0 = Nr_RvN_R(Rvt0, N0);
 
-            #ifdef __ARM_NEON
+            #ifdef _NEON
             
             const reals_t Rs0 = Ex_R_Rs(R0);
             
