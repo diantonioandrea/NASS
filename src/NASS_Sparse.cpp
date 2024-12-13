@@ -8,6 +8,8 @@
  * 
  */
 
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -180,6 +182,38 @@ namespace nass {
             for(natural_t N1 = 0; N1 < N0; ++N1)
                 for(natural_t N2 = Nv0[N1]; N2 < Nv0[N1 + 1]; ++N2)
                     Rvt0[N1] += Rv0[N2] * Rv1[Nv1[N2]];
+        }
+
+
+        /**
+         * @brief (CSC) sparse embedding.
+         * 
+         * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
+         * @return std::tuple<natural_t*, natural_t*, real_t*> 
+         */
+        [[nodiscard]] std::tuple<natural_t*, natural_t*, real_t*> Sec_NN_NvNvRv(const natural_t& N0, const natural_t& N1) {
+            std::srand(std::time(nullptr));
+            
+            const natural_t N2 = 2 * (N0 + 1);
+            const natural_t N3 = static_cast<natural_t>(std::ceil(2 * std::log(N0 + 1)));
+            const real_t R0 = 2.0 / std::sqrt(static_cast<real_t>(N2));
+
+            natural_t* Nv0 = new natural_t[N1];
+            natural_t* Nv1 = new natural_t[N3 * N1];
+            real_t* Rv0 = new real_t[N3 * N1];
+            
+            #pragma omp parallel for
+            for(natural_t N4 = 1; N4 < N1 + 1; ++N4)
+                Nv0[N4] = N4 * N3;
+
+            #pragma omp parallel for
+            for(natural_t N4 = 0; N4 < N3 * N1; ++N4) {
+                Nv1[N4] = std::rand() % N2;
+                Rv0[N4] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0;
+            }
+
+            return {Nv0, Nv1, Rv0};
         }
 
     }
