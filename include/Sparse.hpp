@@ -31,6 +31,8 @@ namespace nass {
 
         void RMlc_RvtNNvNvRvRvRv_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const real_t*);
 
+        void Mlc_RmtNNvNvRvRmN_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const natural_t&);
+
         // Embeddings.
 
         [[nodiscard]] std::tuple<natural_t*, natural_t*, real_t*> Sec_NN_NvNvRv(const natural_t&, const natural_t&);
