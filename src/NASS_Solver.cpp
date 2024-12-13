@@ -8,6 +8,7 @@
  * 
  */
 
+#include "../include/Matrix.hpp"
 #include "../include/Sparse.hpp"
 #include "../include/Solver.hpp"
 
@@ -27,6 +28,9 @@ namespace nass {
          * @param N2 Natural number [N].
          */
         void sGMRES_RvNNvNvRvRvNN_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const natural_t& N1, const natural_t& N2) {
+
+            // PREPARATION.
+
 
             // Embedding.
             const natural_t N3 = 2 * (N1 + 1);
@@ -52,6 +56,9 @@ namespace nass {
             real_t* Rv4 = new real_t[N0];
             real_t* Rv5 = new real_t[N3];
 
+            
+            // sGMRES.
+
 
             // Residual.
             RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rvt0, Rv1);
@@ -67,7 +74,7 @@ namespace nass {
             Mlc_RvtNNvNvRvRv_0(Rm1, N0, Nv0, Nv1, Rv0, Rm0);
 
             // Truncated Arnoldi, first columns.
-            for(natural_t N4 = 1; N4 < N2; ++N4) {
+            for(natural_t N4 = 1; N4 <= N2; ++N4) {
                 
                 // Copy.
                 Cp_RvtRvN_0(Rm0 + N4 * N0, Rm1 + (N4 - 1) * N0, N0);
@@ -84,7 +91,7 @@ namespace nass {
             }
             
             // Truncated Arnoldi, last columns.
-            for(natural_t N4 = N2; N4 < N1; ++N4) {
+            for(natural_t N4 = N2 + 1; N4 < N1; ++N4) {
                 
                 // Copy.
                 Cp_RvtRvN_0(Rm0 + N4 * N0, Rm0 + (N4 - 1) * N0, N0);
@@ -101,7 +108,7 @@ namespace nass {
             }
 
             // Sketch matrix.
-            // [!]
+            Mlc_RmtNNvNvRvRmN_0(Rm2, N3, Nv2, Nv3, Rv2, Rm1, N1);
 
             // (Thin) QR.
             // [!]
@@ -116,7 +123,9 @@ namespace nass {
             // [!]
 
 
-            // Clean-up.
+            // CLEAN-UP AND RETURN.
+
+
             delete[] Nv2; delete[] Nv3; delete[] Rv2;
             delete[] Rm0;
             delete[] Rm1;
