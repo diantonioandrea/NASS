@@ -18,11 +18,14 @@ namespace nass {
 
         // Products.
 
-        // [!]
+        void Lh_RmtRvNNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
+        void Rh_RmtRvNNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
+
+        void Lh_RvtRvNN_0(real_t*, const real_t*, const natural_t&, const natural_t&);
 
         // (Thin) QR.
 
-        void TQR_RmtRmtNN_0(real_t*, real_t*, const natural_t&, const natural_t&);
+        void TQR_RmtRmtRvtNN_0(real_t*, real_t*, real_t*, const natural_t&, const natural_t&);
 
     }
 }
