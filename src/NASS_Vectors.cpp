@@ -167,7 +167,7 @@ namespace nass {
          * @param Rvt0 Real vector [Rv], target [t].
          * @param N0 Natural number [N].
          */
-        void Nrz_RvN_0(real_t* Rvt0, const natural_t& N0) {
+        void Nrz_RvtN_0(real_t* Rvt0, const natural_t& N0) {
             const real_t R0 = Nr_RvN_R(Rvt0, N0);
 
             #ifdef _NEON
