@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     std::srand(std::time(nullptr));
 
     // Parameters.
-    const natural_t N1 = 100; // Subspace size.
+    const natural_t N1 = 20; // Subspace size.
     const natural_t N2 = 4; // Arnoldi truncation.
 
     // Arguments.
@@ -38,6 +38,9 @@ int main(int argc, char** argv) {
     // RHS.
     real_t* Rv2 = new real_t[N0];
 
+    // Residual.
+    real_t* Rv3 = new real_t[N0];
+
     // Random RHS filling.
     for(natural_t N1 = 0; N1 < N0; ++N1)
         Rv2[N1] = static_cast<real_t>(std::rand()) / RAND_MAX;
@@ -45,10 +48,20 @@ int main(int argc, char** argv) {
     // sGMRES.
     internal::sGMRES_RvNNvNvRvRvNN_0(Rv1, N0, Nv0, Nv1, Rv0, Rv2, N1, N2);
 
+    // Residual.
+    internal::RMlc_RvtNNvNvRvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv1, Rv2);
+
+    // Relative residual.
+    const real_t R0 = internal::Nr_RvN_R(Rv3, N0) / internal::Nr_RvN_R(Rv2, N0);
+
+    // Output.
+    std::println("Relative residual: {:.3e}", R0);
+
     // Clean-up.
     delete[] Nv0; delete[] Nv1; delete[] Rv0;
     delete[] Rv1;
     delete[] Rv2;
+    delete[] Rv3;
 
     return 0;
 }
