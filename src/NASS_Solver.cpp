@@ -143,6 +143,7 @@ namespace nass {
             delete[] Rm3;
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
+            delete[] Rv6;
         }
 
     }
