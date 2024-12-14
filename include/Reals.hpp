@@ -260,13 +260,14 @@ namespace nass {
          * @param R0 
          */
         static inline void Pr_R_0(const real_t& R0) {
-            if(R0 > 0.0)
-                std::print(" ");
-
             if(std::abs(R0) < real_tol)
-                std::print("\x1b[2m{:.3e}\033[0m ", 0.0);
-            else
+                std::print(" \x1b[2m{:.3e}\033[0m ", 0.0);
+            else {
+                if(R0 > 0.0)
+                    std::print(" ");
+
                 std::print("{:.3e} ", R0);
+            }
         }
 
         /**
@@ -275,13 +276,14 @@ namespace nass {
          * @param R0 
          */
         static inline void Pn_R_0(const real_t& R0) {
-            if(R0 > 0.0)
-                std::print(" ");
-
             if(std::abs(R0) < real_tol)
-                std::println("\x1b[2m{:.3e}\033[0m", 0.0);
-            else
-                std::println("{:.3e}", R0);
+                std::println(" \x1b[2m{:.3e}\033[0m ", 0.0);
+            else {
+                if(R0 > 0.0)
+                    std::print(" ");
+
+                std::println("{:.3e} ", R0);
+            }
         }
 
     }
