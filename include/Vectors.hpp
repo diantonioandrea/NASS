@@ -29,7 +29,7 @@ namespace nass {
         // Norm.
 
         real_t Nr_RvN_R(const real_t*, const natural_t&);
-        void Nrz_RvN_0(real_t*, const natural_t&);
+        void Nrz_RvtN_0(real_t*, const natural_t&);
 
         // Projections.
         
