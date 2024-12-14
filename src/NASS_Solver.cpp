@@ -10,6 +10,7 @@
 
 #include "../include/Matrix.hpp"
 #include "../include/Sparse.hpp"
+#include "../include/Decomposition.hpp"
 #include "../include/Solver.hpp"
 
 namespace nass {
@@ -46,7 +47,7 @@ namespace nass {
             real_t* Rm2 = new real_t[N3 * N1];
 
             // (Thin) QR matrices.
-            real_t* Rm3 = new real_t[N3 * N1];
+            real_t* Rm3 = new real_t[N3 * N3];
 
             // Minimizer.
             real_t* Rv3 = new real_t[N1];
@@ -54,6 +55,9 @@ namespace nass {
             // Residual and residual sketch.
             real_t* Rv4 = new real_t[N0];
             real_t* Rv5 = new real_t[N3];
+
+            // LS solution.
+            real_t* Rv6 = new real_t[N1];
 
             
             // sGMRES.
@@ -67,7 +71,7 @@ namespace nass {
 
             // First basis column.
             Cp_RvtRvN_0(Rm0, Rv4, N0);
-            Nrz_RvN_0(Rm0, N0);
+            Nrz_RvtN_0(Rm0, N0);
 
             // First LS column.
             Mlc_RvtNNvNvRvRv_0(Rm1, N0, Nv0, Nv1, Rv0, Rm0);
@@ -83,7 +87,7 @@ namespace nass {
                     Prj_RvtRvRvN_0(Rm0 + N4 * N0, Rm0 + (N4 - N5) * N0, Rm1 + (N4 - 1) * N0, N0);
 
                 // Normalization.
-                Nrz_RvN_0(Rm0 + N4 * N0, N0);
+                Nrz_RvtN_0(Rm0 + N4 * N0, N0);
 
                 // LS matrix.
                 Mlc_RvtNNvNvRvRv_0(Rm1 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm0 + N4 * N0);
@@ -100,7 +104,7 @@ namespace nass {
                     Prj_RvtRvRvN_0(Rm0 + N4 * N0, Rm0 + (N4 - N5) * N0, Rm1 + (N4 - 1) * N0, N0);
 
                 // Normalization.
-                Nrz_RvN_0(Rm0 + N4 * N0, N0);
+                Nrz_RvtN_0(Rm0 + N4 * N0, N0);
 
                 // LS matrix.
                 Mlc_RvtNNvNvRvRv_0(Rm1 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm0 + N4 * N0);
@@ -110,16 +114,23 @@ namespace nass {
             Mlc_RmtNNvNvRvRmN_0(Rm2, N3, Nv2, Nv3, Rv2, Rm1, N1);
 
             // (Thin) QR.
-            // [!]
+            TQR_RmtRmtRvtNN_0(Rm3, Rm2, Rv5, N3, N1);
 
-            // (Reduced) LS problem.
-            // [!]
+            // (Reduced) LS problem, backward substitution.
+            for(natural_t N4 = N1; N4 > 0; --N4) {
+                real_t R0 = 0.0;
+
+                for(natural_t N5 = N4; N5 < N1; ++N5)
+                    R0 += Rm2[N5 * N3 + N4 - 1] * Rv6[N5];
+                
+                Rv6[N4 - 1] = (Rv5[N4 - 1] - R0) / Rm2[(N4 - 1) * (N3 + 1)];
+            }
 
             // Residual estimation.
             // [!]
 
             // Solution update.
-            // [!]
+            Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv6, N0, N1);
 
 
             // CLEAN-UP AND RETURN.
