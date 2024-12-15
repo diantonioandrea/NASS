@@ -19,15 +19,15 @@ int main(int argc, char** argv) {
     // Seeding.
     std::srand(std::time(nullptr));
 
-    // Parameters.
-    const natural_t N1 = 20; // Subspace size.
-    const natural_t N2 = 4; // Arnoldi truncation.
-
     // Arguments.
-    if(argc < 2) {
-        std::println("Usage: {} St [String, path]", argv[0]);
+    if(argc < 3) {
+        std::println("Usage: {} St [String, path] N [Natural, Subspace dimension] N? [Natural, Arnoldi]", argv[0]);
         return -1;
     }
+
+    // Parameters.
+    const natural_t N1 = std::atoi(argv[2]);
+    const natural_t N2 = argc > 3 ? std::atoi(argv[3]) : 4;
 
     // Sparse matrix.
     auto [N0, Nv0, Nv1, Rv0] = internal::Spc_St_NNvNvRv(argv[1]);
@@ -35,24 +35,30 @@ int main(int argc, char** argv) {
     // Solution.
     real_t* Rv1 = new real_t[N0];
 
-    // RHS.
+    // Expected solution.
     real_t* Rv2 = new real_t[N0];
 
-    // Residual.
+    // RHS.
     real_t* Rv3 = new real_t[N0];
 
-    // Random RHS filling.
+    // Residual.
+    real_t* Rv4 = new real_t[N0];
+
+    // Random filling.
     for(natural_t N1 = 0; N1 < N0; ++N1)
-        Rv2[N1] = static_cast<real_t>(std::rand()) / RAND_MAX;
+        Rv3[N1] = static_cast<real_t>(std::rand()) / RAND_MAX;
+
+    // RHS.
+    internal::Mlc_RvtNNvNvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv2);
 
     // sGMRES.
-    internal::sGMRES_RvNNvNvRvRvNN_0(Rv1, N0, Nv0, Nv1, Rv0, Rv2, N1, N2);
+    internal::sGMRES_RvNNvNvRvRvNN_0(Rv1, N0, Nv0, Nv1, Rv0, Rv3, N1, N2);
 
     // Residual.
-    internal::RMlc_RvtNNvNvRvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv1, Rv2);
+    internal::RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rv1, Rv3);
 
     // Relative residual.
-    const real_t R0 = internal::Nr_RvN_R(Rv3, N0) / internal::Nr_RvN_R(Rv2, N0);
+    const real_t R0 = internal::Nr_RvN_R(Rv4, N0) / internal::Nr_RvN_R(Rv3, N0);
 
     // Output.
     std::println("Relative residual: {:.3e}", R0);
@@ -60,8 +66,8 @@ int main(int argc, char** argv) {
     // Clean-up.
     delete[] Nv0; delete[] Nv1; delete[] Rv0;
     delete[] Rv1;
-    delete[] Rv2;
     delete[] Rv3;
+    delete[] Rv4;
 
     return 0;
 }
