@@ -30,24 +30,14 @@ namespace nass {
          * @param N2 Natural number [N].
          */
         void Lh_RmtRvNNN_0(real_t* Rmt0, const real_t* Rv0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
-            real_t R0 = 2.0 * Dt_RvRvN_R(Rmt0 + (N0 - N2) * (N0 + 1), Rv0 + N0 - N2, N2);
-
-            Rmt0[(N0 - N2) * N0 + N0 - N2] -= Rv0[N0 - N2] * R0;
-
-            for(natural_t N6 = N0 - N2 + 1; N6 < N0; ++N6)
-                Rmt0[(N0 - N2) * N0 + N6] = 0.0;
-
-            for(natural_t N3 = N0 - N2 + 1; N3 < N1; ++N3) {
+            for(natural_t N3 = N0 - N2; N3 < N1; ++N3) {
                 const natural_t N4 = N3 * N0;
                 const natural_t N5 = N0 - N2;
 
-                R0 = 2.0 * Dt_RvRvN_R(Rmt0 + N4 + N5, Rv0 + N5, N2);
+                const real_t R0 = 2.0 * Dt_RvRvN_R(Rmt0 + N4 + N5, Rv0 + N5, N2);
 
-                for(natural_t N6 = N0 - N2; N6 < N1; ++N6)
+                for(natural_t N6 = N0 - N2; N6 < N0; ++N6)
                     Rmt0[N4 + N6] -= Rv0[N6] * R0;
-                
-                for(natural_t N6 = N1; N6 < N0; ++N6)
-                    Rmt0[N4 + N6] = 0.0;
             }
         }
 
@@ -62,18 +52,16 @@ namespace nass {
          * @param N2 Natural number [N].
          */
         void Rh_RmtRvNNN_0(real_t* Rmt0, const real_t* Rv0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
-            for(natural_t N3 = N0 - N2; N3 < N0; ++N3) {
-                const natural_t N4 = N0 - N2;
-
+            for(natural_t N3 = 0; N3 < N0; ++N3) {
                 real_t R0 = 0.0;
 
-                for(natural_t N5 = N0 - N2; N5 < N1; ++N5)
-                    R0 += Rmt0[N5 * N0 + N4] * Rv0[N5];
+                for(natural_t N5 = N0 - N2; N5 < N0; ++N5)
+                    R0 += Rmt0[N5 * N0 + N3] * Rv0[N5];
 
                 R0 *= 2.0;
 
-                for(natural_t N5 = N0 - N2; N5 < N1; ++N5)
-                    Rmt0[N5 * N0 + N4] -= R0 * Rv0[N5];
+                for(natural_t N5 = N0 - N2; N5 < N0; ++N5)
+                    Rmt0[N5 * N0 + N3] -= R0 * Rv0[N5];
             }
         }
 
@@ -125,10 +113,10 @@ namespace nass {
             // Q.
             for(natural_t N2 = 0; N2 < N0; ++N2) {
                 for(natural_t N3 = 0; N3 < N2; ++N3)
-                    Rmt0[N2 * N0 + N3] = -2.0 * Rv0[N2] * Rv0[N3];
+                    Rmt0[N3 * N0 + N2] = -2.0 * Rv0[N3] * Rv0[N2];
 
                 for(natural_t N3 = N2 + 1; N3 < N0; ++N3)
-                    Rmt0[N2 * N0 + N3] = -2.0 * Rv0[N2] * Rv0[N3];
+                    Rmt0[N3 * N0 + N2] = -2.0 * Rv0[N3] * Rv0[N2];
 
                 Rmt0[N2 * (N0 + 1)] = 1.0 - 2.0 * Rv0[N2] * Rv0[N2];
             }
