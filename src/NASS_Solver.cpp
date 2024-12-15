@@ -12,6 +12,10 @@
 #define SPARSE_SKETCH
 #endif
 
+#ifndef NVERBOSE
+#include <chrono>
+#endif
+
 #include "../include/Vectors.hpp"
 #include "../include/Matrix.hpp"
 #include "../include/Sparse.hpp"
@@ -55,7 +59,7 @@ namespace nass {
             #ifndef NVERBOSE
             std::println("--- sGMRES.");
             std::println("Parameters: {}, {}, {}", N0, N1, N2);
-            std::println("---");
+            std::println("Timings:");
             #endif
 
 
@@ -65,11 +69,25 @@ namespace nass {
             // Embedding.
             const natural_t N3 = 2 * (N1 + 1);
 
+
+            #ifndef NVERBOSE
+            auto T0 = std::chrono::high_resolution_clock::now();
+            #endif
+
+
             #if defined(SPARSE_SKETCH)
             const auto [Nv2, Nv3, Rv2] = Sec_NN_NvNvRv(N1, N0);
             #elif defined(GAUSS_SKETCH)
             real_t* Rm0 = Gs_NN_Rm(N3, N0);
             #endif
+
+
+            #ifndef NVERBOSE
+            auto T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tSketch: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
 
             // Basis.
             real_t* Rm1 = new real_t[N0 * N1];
@@ -111,6 +129,14 @@ namespace nass {
             #endif
 
             Cp_RvtRvN_0(Rv7, Rv5, N3);
+
+            // Arnoldi.
+
+
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
+            #endif
+
 
             // First basis column.
             Cp_RvtRvN_0(Rm1, Rv4, N0);
@@ -156,6 +182,19 @@ namespace nass {
                 Mlc_RvtNNvNvRvRv_0(Rm2 + N5 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N5 * N0);
             }
 
+
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tArnoldi: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
+
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
+            #endif
+
+
             // Sketch matrix.
             #if defined(SPARSE_SKETCH)
             Mlc_RmtNNNvNvRvRmN_0(Rm3, N3, N0, Nv2, Nv3, Rv2, Rm2, N1);
@@ -163,8 +202,29 @@ namespace nass {
             Ml_RmtRmRmNNN_0(Rm3, Rm0, Rm2, N3, N0, N1);
             #endif
 
+
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tSketch application: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
+
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
+            #endif
+
+
             // QR.
             TQR_RmtRmtNvtRvtNN_0(Rm4, Rm3, Nv4, Rv5, N3, N1);
+
+
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tQR decomposition: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
 
             // Condition number estimate.
             real_t R0 = std::abs(Rm3[0]), R1 = std::abs(Rm3[0]);
@@ -178,6 +238,12 @@ namespace nass {
                 if(R2 > R1)
                     R1 = R2;
             }
+
+
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
+            #endif
+
 
             // (Reduced) LS problem, backward substitution.
             for(natural_t N5 = N1; N5 > 0; --N5) {
@@ -195,6 +261,14 @@ namespace nass {
                 Rv6[N5] = Rv6[Nv4[N5]];
                 Rv6[Nv4[N5]] = R2;
             }
+
+
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tLS problem: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
 
             // Residual estimation.
             REst_RvtRmRvNN_0(Rv7, Rm4, Rv5, N3, N1);
@@ -221,6 +295,10 @@ namespace nass {
             delete[] Rv4; delete[] Rv5;
             delete[] Rv6;
             delete[] Rv7;
+
+            #ifndef NVERBOSE
+            std::println("---");
+            #endif
 
             return {R2, R1 / R0};
         }
