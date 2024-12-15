@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 
     // Random filling.
     for(natural_t N1 = 0; N1 < N0; ++N1)
-        Rv3[N1] = static_cast<real_t>(std::rand()) / RAND_MAX;
+        Rv2[N1] = static_cast<real_t>(std::rand()) / RAND_MAX;
 
     // RHS.
     internal::Mlc_RvtNNvNvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv2);
