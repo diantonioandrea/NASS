@@ -242,7 +242,7 @@ namespace nass {
             std::srand(std::time(nullptr));
             
             const natural_t N2 = 2 * (N0 + 1);
-            const natural_t N3 = static_cast<natural_t>(std::ceil(2 * std::log(N0 + 1)));
+            const natural_t N3 = static_cast<natural_t>(std::ceil(2.0 * std::log(N0 + 1.0)));
             const real_t R0 = 2.0 / std::sqrt(static_cast<real_t>(N2));
 
             natural_t* Nv0 = new natural_t[N1];
