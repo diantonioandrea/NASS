@@ -123,15 +123,15 @@ namespace nass {
 
 #ifndef NDEBUG
 #ifdef _OPENMP
-#pragma message "OpenMP supported."
+#pragma message "OpenMP enabled."
 #else
-#pragma message "OpenMP NOT supported."
+#pragma message "OpenMP NOT supported/enabled."
 #endif
 
 #ifdef _NEON
-#pragma message "Neon supported."
+#pragma message "Neon enabled."
 #else
-#pragma message "Neon NOT supported."
+#pragma message "Neon NOT supported/enabled."
 #endif
 #endif
 
