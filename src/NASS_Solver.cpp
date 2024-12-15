@@ -22,6 +22,22 @@ namespace nass {
     namespace internal {
 
         /**
+         * @brief Residual estimate.
+         * 
+         * @param Rvt0 Real vector [Rv], target [t].
+         * @param Rm0 Real matrix [Rm].
+         * @param Rv0 Real vector [Rv].
+         * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
+         */
+        void REst_RvtRmRvNN_0(real_t* Rvt0, const real_t* Rm0, const real_t* Rv0, const natural_t& N0, const natural_t& N1) {
+            for(natural_t N2 = 0; N2 < N1; ++N2)
+                for(natural_t N3 = 0; N3 < N0; ++N3)
+                    Rvt0[N3] -= Rm0[N2 * N0 + N3] * Rv0[N2];
+        }
+
+
+        /**
          * @brief Sketched GMRES.
          *
          * @param Rvt0 Real vector [Rv], target [t].
@@ -33,7 +49,7 @@ namespace nass {
          * @param N1 Natural number [N].
          * @param N2 Natural number [N].
          */
-        void sGMRES_RvNNvNvRvRvNN_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const natural_t& N1, const natural_t& N2) {
+        real_t sGMRES_RvNNvNvRvRvNN_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const natural_t& N1, const natural_t& N2) {
 
             #ifndef NVERBOSE
             std::println("--- sGMRES.");
@@ -77,6 +93,9 @@ namespace nass {
             // LS solution.
             real_t* Rv6 = new real_t[N1];
 
+            // Residual estimates.
+            real_t* Rv7 = new real_t[N3];
+
 
             // sGMRES.
 
@@ -89,6 +108,8 @@ namespace nass {
             #elif defined(GAUSS_SKETCH)
             Ml_RvtRmRvNN_0(Rv5, Rm0, Rv4, N3, N0);
             #endif
+
+            Cp_RvtRvN_0(Rv7, Rv5, N3);
 
             // First basis column.
             Cp_RvtRvN_0(Rm1, Rv4, N0);
@@ -162,10 +183,11 @@ namespace nass {
             }
 
             // Residual estimation.
-            // [!]
+            REst_RvtRmRvNN_0(Rv7, Rm4, Rv5, N3, N1);
+            const real_t R0 = Nr_RvN_R(Rv7, N3);
 
             // Solution update.
-            Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv6, N0, N1); // [!]
+            Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv6, N0, N1);
 
 
             // CLEAN-UP AND RETURN.
@@ -174,7 +196,7 @@ namespace nass {
             #if defined(SPARSE_SKETCH)
             delete[] Nv2; delete[] Nv3; delete[] Rv2;
             #elif defined(GAUSS_SKETCH)
-
+            delete[] Rm0;
             #endif
 
             delete[] Rm1;
@@ -184,6 +206,9 @@ namespace nass {
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
             delete[] Rv6;
+            delete[] Rv7;
+
+            return R0;
         }
 
     }
