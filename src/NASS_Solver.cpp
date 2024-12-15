@@ -111,7 +111,7 @@ namespace nass {
             }
 
             // Sketch matrix.
-            Mlc_RmtNNvNvRvRmN_0(Rm2, N3, Nv2, Nv3, Rv2, Rm1, N1);
+            Mlc_RmtNNNvNvRvRmN_0(Rm2, N3, N0, Nv2, Nv3, Rv2, Rm1, N1);
 
             // (Thin) QR.
             TQR_RmtRmtRvtNN_0(Rm3, Rm2, Rv5, N3, N1);
