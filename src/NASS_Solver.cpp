@@ -48,6 +48,7 @@ namespace nass {
 
             // (Thin) QR matrices.
             real_t* Rm3 = new real_t[N3 * N3];
+            natural_t* Nv4 = new natural_t[N1];
 
             // Minimizer.
             real_t* Rv3 = new real_t[N1];
@@ -114,7 +115,7 @@ namespace nass {
             Mlc_RmtNNNvNvRvRmN_0(Rm2, N3, N0, Nv2, Nv3, Rv2, Rm1, N1);
 
             // (Thin) QR.
-            TQR_RmtRmtRvtNN_0(Rm3, Rm2, Rv5, N3, N1);
+            TQR_RmtRmtNvtRvtNN_0(Rm3, Rm2, Nv4, Rv5, N3, N1);
 
             // (Reduced) LS problem, backward substitution.
             for(natural_t N4 = N1; N4 > 0; --N4) {
@@ -124,6 +125,13 @@ namespace nass {
                     R0 += Rm2[N5 * N3 + N4 - 1] * Rv6[N5];
                 
                 Rv6[N4 - 1] = (Rv5[N4 - 1] - R0) / Rm2[(N4 - 1) * (N3 + 1)];
+            }
+
+            // Pivoting.
+            for(natural_t N4 = 0; N4 < N1; ++N4) {
+                const real_t R0 = Rv6[N4];
+                Rv6[N4] = Rv6[Nv4[N4]];
+                Rv6[Nv4[N4]] = R0;
             }
 
             // Residual estimation.
@@ -140,7 +148,7 @@ namespace nass {
             delete[] Rm0;
             delete[] Rm1;
             delete[] Rm2;
-            delete[] Rm3;
+            delete[] Rm3; delete[] Nv4;
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
             delete[] Rv6;
