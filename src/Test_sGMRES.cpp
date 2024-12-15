@@ -52,16 +52,17 @@ int main(int argc, char** argv) {
     internal::Mlc_RvtNNvNvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv2);
 
     // sGMRES.
-    internal::sGMRES_RvNNvNvRvRvNN_0(Rv1, N0, Nv0, Nv1, Rv0, Rv3, N1, N2);
+    const real_t R0 = internal::sGMRES_RvNNvNvRvRvNN_0(Rv1, N0, Nv0, Nv1, Rv0, Rv3, N1, N2);
 
     // Residual.
     internal::RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rv1, Rv3);
 
     // Relative residual.
-    const real_t R0 = internal::Nr_RvN_R(Rv4, N0) / internal::Nr_RvN_R(Rv3, N0);
+    const real_t R1 = internal::Nr_RvN_R(Rv4, N0) / internal::Nr_RvN_R(Rv3, N0);
 
     // Output.
-    std::println("Relative residual: {:.3e}", R0);
+    std::println("Residual, estimate: {:.3e}", R0);
+    std::println("Residual, relative: {:.3e}", R1);
 
     // Clean-up.
     delete[] Nv0; delete[] Nv1; delete[] Rv0;
