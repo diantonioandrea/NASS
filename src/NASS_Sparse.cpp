@@ -216,17 +216,18 @@ namespace nass {
          * 
          * @param Rmt0 Real matrix [Rm], target [t].
          * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
          * @param Nv0 Natural vector [Nv].
          * @param Nv1 Natural vector [Nv].
          * @param Rv0 Real vector [Rv].
          * @param Rm0 Real matrix [Rm].
-         * @param N1 Natural number [N].
+         * @param N2 Natural number [N].
          */
-        void Mlc_RmtNNvNvRvRmN_0(real_t* Rmt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rm0, const natural_t& N1) {
+        void Mlc_RmtNNNvNvRvRmN_0(real_t* Rmt0, const natural_t& N0, const natural_t& N1, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rm0, const natural_t& N2) {
 
             #pragma omp parallel for
-            for(natural_t N2 = 0; N2 < N1; ++N2)
-                Mlc_RvtNNvNvRvRv_0(Rmt0 + N2 * N0, N0, Nv0, Nv1, Rv0, Rm0 + N2 * N0);
+            for(natural_t N3 = 0; N3 < N2; ++N3)
+                Mlc_RvtNNvNvRvRv_0(Rmt0 + N3 * N0, N1, Nv0, Nv1, Rv0, Rm0 + N3 * N1);
         } 
 
 
