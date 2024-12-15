@@ -16,9 +16,13 @@
 namespace nass {
     namespace internal {
 
+        // Estimates.
+
+        void REst_RvtRmRvNN_0(real_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
+
         // sGMRES.
 
-        void sGMRES_RvNNvNvRvRvNN_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
+        real_t sGMRES_RvNNvNvRvRvNN_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
 
     }
 }
