@@ -23,7 +23,7 @@ namespace nass {
         // Products.
 
         void Lh_RmtRvNNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
-        void Rh_RmtRvNNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
+        void Rh_RmtRvNN_0(real_t*, const real_t*, const natural_t&, const natural_t&);
 
         void Lh_RvtRvNN_0(real_t*, const real_t*, const natural_t&, const natural_t&);
 
