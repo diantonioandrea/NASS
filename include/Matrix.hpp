@@ -23,6 +23,10 @@ namespace nass {
         void Ml_RmtTRmRmNNN_0(real_t*, const real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
         void Ml_RmtRmRmNNN_0(real_t*, const real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
 
+        // Embeddings.
+
+        [[nodiscard]] real_t* Gs_NN_Rm(const natural_t&, const natural_t&);
+
         // Output.
 
         void Pr_RmNN_0(const real_t*, const natural_t&, const natural_t&);
