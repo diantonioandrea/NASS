@@ -97,38 +97,41 @@ namespace nass {
             // First LS column.
             Mlc_RvtNNvNvRvRv_0(Rm2, N0, Nv0, Nv1, Rv0, Rm1);
 
+            // Truncated Arnoldi.
+            const natural_t N4 = N2 > N1 ? N1 : N2;
+
             // Truncated Arnoldi, first columns.
-            for(natural_t N4 = 1; N4 <= N2; ++N4) {
+            for(natural_t N5 = 1; N5 < N4; ++N5) {
 
                 // Copy.
-                Cp_RvtRvN_0(Rm1 + N4 * N0, Rm2 + (N4 - 1) * N0, N0);
+                Cp_RvtRvN_0(Rm1 + N5 * N0, Rm2 + (N5 - 1) * N0, N0);
 
                 // Orthogonalization.
-                for(natural_t N5 = 1; N5 <= N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + (N4 - N5) * N0, Rm1 + N4 * N0, N0);
+                for(natural_t N6 = 1; N6 <= N5; ++N6)
+                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + (N5 - N6) * N0, Rm1 + N5 * N0, N0);
 
                 // Normalization.
-                Nrz_RvtN_0(Rm1 + N4 * N0, N0);
+                Nrz_RvtN_0(Rm1 + N5 * N0, N0);
 
                 // LS matrix.
-                Mlc_RvtNNvNvRvRv_0(Rm2 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N4 * N0);
+                Mlc_RvtNNvNvRvRv_0(Rm2 + N5 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N5 * N0);
             }
 
             // Truncated Arnoldi, last columns.
-            for(natural_t N4 = N2 + 1; N4 < N1; ++N4) {
+            for(natural_t N5 = N4; N5 < N1; ++N5) {
 
                 // Copy.
-                Cp_RvtRvN_0(Rm1 + N4 * N0, Rm2 + (N4 - 1) * N0, N0);
+                Cp_RvtRvN_0(Rm1 + N5 * N0, Rm2 + (N5 - 1) * N0, N0);
 
                 // Orthogonalization.
-                for(natural_t N5 = 1; N5 <= N2; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + (N4 - N5) * N0, Rm1 + N4 * N0, N0);
+                for(natural_t N6 = 1; N6 <= N4; ++N6)
+                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + (N5 - N6) * N0, Rm1 + N5 * N0, N0);
 
                 // Normalization.
-                Nrz_RvtN_0(Rm1 + N4 * N0, N0);
+                Nrz_RvtN_0(Rm1 + N5 * N0, N0);
 
                 // LS matrix.
-                Mlc_RvtNNvNvRvRv_0(Rm2 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N4 * N0);
+                Mlc_RvtNNvNvRvRv_0(Rm2 + N5 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N5 * N0);
             }
 
             // Sketch matrix.
@@ -142,21 +145,21 @@ namespace nass {
             TQR_RmtRmtNvtRvtNN_0(Rm4, Rm3, Nv4, Rv5, N3, N1);
 
             // (Reduced) LS problem, backward substitution.
-            for(natural_t N4 = N2; N4 > 0; --N4) {
+            for(natural_t N5 = N1; N5 > 0; --N5) {
                 real_t R0 = 0.0;
 
-                for(natural_t N5 = N4; N5 < N2; ++N5)
-                    R0 += Rm3[N5 * N3 + N4 - 1] * Rv6[N5];
+                for(natural_t N6 = N5; N6 < N1; ++N6)
+                    R0 += Rm3[N6 * N3 + N5 - 1] * Rv6[N6];
 
-                Rv6[N4 - 1] = (Rv5[N4 - 1] - R0) / Rm3[(N4 - 1) * (N3 + 1)];
+                Rv6[N5 - 1] = (Rv5[N5 - 1] - R0) / Rm3[(N5 - 1) * (N3 + 1)];
             }
 
-            // // Pivoting.
-            // for(natural_t N4 = 0; N4 < N2; ++N4) {
-            //     const real_t R0 = Rv6[N4];
-            //     Rv6[N4] = Rv6[Nv4[N4]];
-            //     Rv6[Nv4[N4]] = R0;
-            // }
+            // Pivoting.
+            for(natural_t N5 = 0; N5 < N1; ++N5) {
+                const real_t R0 = Rv6[N5];
+                Rv6[N5] = Rv6[Nv4[N5]];
+                Rv6[Nv4[N5]] = R0;
+            }
 
             // Residual estimation.
             // [!]
