@@ -135,9 +135,9 @@ namespace nass {
             assert(N1 < N0 - 1);
             #endif
 
-            // // Pivoting.
-            // for(natural_t N2 = 0; N2 < N2; ++N2)
-            //     Nvt0[N2] = N2;
+            // Pivoting.
+            for(natural_t N2 = 0; N2 < N1; ++N2)
+                Nvt0[N2] = N2;
 
             // Column.
             real_t* Rv0 = new real_t[N0];
