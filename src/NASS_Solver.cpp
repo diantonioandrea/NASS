@@ -1,17 +1,18 @@
 /**
  * @file NASS_Solver.cpp
  * @author Andrea Di Antonio (github.com/diantonioandrea)
- * @brief 
+ * @brief
  * @date 2024-12-13
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #if !defined(SPARSE_SKETCH) && !defined(GAUSS_SKETCH)
 #define SPARSE_SKETCH
 #endif
 
+#include "../include/Vectors.hpp"
 #include "../include/Matrix.hpp"
 #include "../include/Sparse.hpp"
 #include "../include/Decomposition.hpp"
@@ -19,10 +20,10 @@
 
 namespace nass {
     namespace internal {
-        
+
         /**
          * @brief Sketched GMRES.
-         * 
+         *
          * @param Rvt0 Real vector [Rv], target [t].
          * @param N0 Natural number [N].
          * @param Nv0 Natural vector [Nv].
@@ -33,6 +34,13 @@ namespace nass {
          * @param N2 Natural number [N].
          */
         void sGMRES_RvNNvNvRvRvNN_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const natural_t& N1, const natural_t& N2) {
+
+            #ifndef NVERBOSE
+            std::println("--- sGMRES.");
+            std::println("Parameters: {}, {}, {}", N0, N1, N2);
+            std::println("---");
+            #endif
+
 
             // PREPARATION.
 
@@ -67,11 +75,10 @@ namespace nass {
             real_t* Rv5 = new real_t[N3];
 
             // LS solution.
-            real_t* Rv6 = new real_t[N2];
+            real_t* Rv6 = new real_t[N1];
 
-            
+
             // sGMRES.
-
 
             // Residual.
             RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rvt0, Rv1);
@@ -92,7 +99,7 @@ namespace nass {
 
             // Truncated Arnoldi, first columns.
             for(natural_t N4 = 1; N4 <= N2; ++N4) {
-                
+
                 // Copy.
                 Cp_RvtRvN_0(Rm1 + N4 * N0, Rm2 + (N4 - 1) * N0, N0);
 
@@ -106,12 +113,12 @@ namespace nass {
                 // LS matrix.
                 Mlc_RvtNNvNvRvRv_0(Rm2 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N4 * N0);
             }
-            
+
             // Truncated Arnoldi, last columns.
             for(natural_t N4 = N2 + 1; N4 < N1; ++N4) {
-                
+
                 // Copy.
-                Cp_RvtRvN_0(Rm1 + N4 * N0, Rm1 + (N4 - 1) * N0, N0);
+                Cp_RvtRvN_0(Rm1 + N4 * N0, Rm2 + (N4 - 1) * N0, N0);
 
                 // Orthogonalization.
                 for(natural_t N5 = 1; N5 <= N2; ++N5)
@@ -134,15 +141,13 @@ namespace nass {
             // QR.
             TQR_RmtRmtNvtRvtNN_0(Rm4, Rm3, Nv4, Rv5, N3, N1);
 
-            Pr_RmNN_0(Rm3, N3, N1);
-
             // (Reduced) LS problem, backward substitution.
             for(natural_t N4 = N2; N4 > 0; --N4) {
                 real_t R0 = 0.0;
 
                 for(natural_t N5 = N4; N5 < N2; ++N5)
                     R0 += Rm3[N5 * N3 + N4 - 1] * Rv6[N5];
-                
+
                 Rv6[N4 - 1] = (Rv5[N4 - 1] - R0) / Rm3[(N4 - 1) * (N3 + 1)];
             }
 
@@ -157,7 +162,7 @@ namespace nass {
             // [!]
 
             // Solution update.
-            Ml_RvtRmRvNN_0(Rvt0, Rm2, Rv6, N0, N1);
+            Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv6, N0, N1); // [!]
 
 
             // CLEAN-UP AND RETURN.
