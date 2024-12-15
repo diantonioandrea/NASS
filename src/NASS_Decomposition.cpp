@@ -21,6 +21,42 @@ namespace nass {
     namespace internal {
 
         /**
+         * @brief QR pivoting.
+         * 
+         * @param Rmt0 Real matrix [Rm], target [t].
+         * @param Nvt0 Natural vector [Nv], target [t].
+         * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
+         * @param N2 Natural number [N].
+         */
+        void Pv_RmtNvtNNN_0(real_t* Rmt0, natural_t* Nvt0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
+            real_t R0 = Nr_RvN_R(Rmt0 + N2 * (N0 + 1), N0 - N2);
+            natural_t N3 = N2;
+
+            for(natural_t N4 = N2 + 1; N4 < N1; ++N4) {
+                const real_t R1 = Nr_RvN_R(Rmt0 + N4 * N0 + N2, N0 - N2);
+
+                if(R1 > R0) {
+                    R0 = R1;
+                    N3 = N4;
+                }
+            }
+
+            if(N3 != N2) { // [!] Pivoting can be made implicit.
+                for(natural_t N4 = 0; N4 < N0; ++N4) {
+                    real_t R1 = Rmt0[N2 * N0 + N4];
+                    Rmt0[N2 * N0 + N4] = Rmt0[N3 * N0 + N4];
+                    Rmt0[N3 * N0 + N4] = R1;
+                }
+
+                natural_t N4 = Nvt0[N2];
+                Nvt0[N2] = Nvt0[N3];
+                Nvt0[N3] = N4;
+            }
+        }
+
+
+        /**
          * @brief Left Householder product.
          * 
          * @param Rmt0 Real matrix [Rm], target [t].
@@ -87,19 +123,27 @@ namespace nass {
          * 
          * @param Rmt0 Real matrix [Rm], target [t].
          * @param Rmt1 Real matrix [Rm], target [t].
+         * @param Nvt0 Natural vector [Nv], target [t].
          * @param Rvt0 Real vector [Rm], target [t].
          * @param N0 Natural number [N].
          * @param N1 Natural number [N].
          */
-        void TQR_RmtRmtRvtNN_0(real_t* Rmt0, real_t* Rmt1, real_t* Rvt0, const natural_t& N0, const natural_t& N1) {
+        void TQR_RmtRmtNvtRvtNN_0(real_t* Rmt0, real_t* Rmt1, natural_t* Nvt0, real_t* Rvt0, const natural_t& N0, const natural_t& N1) {
             #ifndef NDEBUG // Integrity check.
             assert(N1 < N0 - 1);
             #endif
+
+            // Pivoting.
+            for(natural_t N2 = 0; N2 < N1; ++N2)
+                Nvt0[N2] = N2;
 
             // Column.
             real_t* Rv0 = new real_t[N0];
 
             // First column.
+
+            // Pivoting.
+            Pv_RmtNvtNNN_0(Rmt1, Nvt0, N0, N1, 0);
 
             // Copy.
             Cp_RvtRvN_0(Rv0, Rmt1, N0);
@@ -129,6 +173,9 @@ namespace nass {
 
             // Other columns.
             for(natural_t N2 = 1; N2 < N1; ++N2) {
+
+                // Pivoting.
+                Pv_RmtNvtNNN_0(Rmt1, Nvt0, N0, N1, N2);
 
                 // Copy.
                 Cp_RvtRvN_0(Rv0 + N2, Rmt1 + N2 * (N0 + 1), N0 - N2);
