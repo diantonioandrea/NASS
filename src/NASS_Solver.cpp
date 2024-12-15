@@ -48,8 +48,9 @@ namespace nass {
          * @param Rv1 Real vector [Rv].
          * @param N1 Natural number [N].
          * @param N2 Natural number [N].
+         * @return std::array<real_t, 2> Real numbers [R].
          */
-        real_t sGMRES_RvNNvNvRvRvNN_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const natural_t& N1, const natural_t& N2) {
+        std::array<real_t, 2> sGMRES_RvNNvNvRvRvNN_RR(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const natural_t& N1, const natural_t& N2) {
 
             #ifndef NVERBOSE
             std::println("--- sGMRES.");
@@ -165,26 +166,39 @@ namespace nass {
             // QR.
             TQR_RmtRmtNvtRvtNN_0(Rm4, Rm3, Nv4, Rv5, N3, N1);
 
+            // Condition number estimate.
+            real_t R0 = std::abs(Rm3[0]), R1 = std::abs(Rm3[0]);
+
+            for(natural_t N5 = 1; N5 < N1; ++N5) {
+                const real_t R2 = std::abs(Rm3[N5 * (N3 + 1)]);
+
+                if(R2 < R0)
+                    R0 = R2;
+
+                if(R2 > R1)
+                    R1 = R2;
+            }
+
             // (Reduced) LS problem, backward substitution.
             for(natural_t N5 = N1; N5 > 0; --N5) {
-                real_t R0 = 0.0;
+                real_t R2 = 0.0;
 
                 for(natural_t N6 = N5; N6 < N1; ++N6)
-                    R0 += Rm3[N6 * N3 + N5 - 1] * Rv6[N6];
+                    R2 += Rm3[N6 * N3 + N5 - 1] * Rv6[N6];
 
-                Rv6[N5 - 1] = (Rv5[N5 - 1] - R0) / Rm3[(N5 - 1) * (N3 + 1)];
+                Rv6[N5 - 1] = (Rv5[N5 - 1] - R2) / Rm3[(N5 - 1) * (N3 + 1)];
             }
 
             // Pivoting.
             for(natural_t N5 = 0; N5 < N1; ++N5) {
-                const real_t R0 = Rv6[N5];
+                const real_t R2 = Rv6[N5];
                 Rv6[N5] = Rv6[Nv4[N5]];
-                Rv6[Nv4[N5]] = R0;
+                Rv6[Nv4[N5]] = R2;
             }
 
             // Residual estimation.
             REst_RvtRmRvNN_0(Rv7, Rm4, Rv5, N3, N1);
-            const real_t R0 = Nr_RvN_R(Rv7, N3);
+            const real_t R2 = Nr_RvN_R(Rv7, N3);
 
             // Solution update.
             Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv6, N0, N1);
@@ -208,7 +222,7 @@ namespace nass {
             delete[] Rv6;
             delete[] Rv7;
 
-            return R0;
+            return {R2, R1 / R0};
         }
 
     }
