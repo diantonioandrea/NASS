@@ -228,7 +228,7 @@ namespace nass {
             #pragma omp parallel for
             for(natural_t N3 = 0; N3 < N2; ++N3)
                 Mlc_RvtNNvNvRvRv_0(Rmt0 + N3 * N0, N1, Nv0, Nv1, Rv0, Rm0 + N3 * N1);
-        } 
+        }
 
 
         /**
@@ -245,12 +245,12 @@ namespace nass {
             const natural_t N3 = static_cast<natural_t>(std::ceil(2.0 * std::log(N0 + 1.0)));
             const real_t R0 = 2.0 / std::sqrt(static_cast<real_t>(N2));
 
-            natural_t* Nv0 = new natural_t[N1];
+            natural_t* Nv0 = new natural_t[N1 + 1];
             natural_t* Nv1 = new natural_t[N3 * N1];
             real_t* Rv0 = new real_t[N3 * N1];
             
             #pragma omp parallel for
-            for(natural_t N4 = 1; N4 < N1 + 1; ++N4)
+            for(natural_t N4 = 0; N4 < N1 + 1; ++N4)
                 Nv0[N4] = N4 * N3;
 
             #pragma omp parallel for
