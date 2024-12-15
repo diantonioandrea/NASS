@@ -46,7 +46,7 @@ namespace nass {
             // Sketch matrix.
             real_t* Rm2 = new real_t[N3 * N1];
 
-            // (Thin) QR matrices.
+            // QR matrices.
             real_t* Rm3 = new real_t[N3 * N3];
             natural_t* Nv4 = new natural_t[N1];
 
@@ -114,7 +114,7 @@ namespace nass {
             // Sketch matrix.
             Mlc_RmtNNNvNvRvRmN_0(Rm2, N3, N0, Nv2, Nv3, Rv2, Rm1, N1);
 
-            // (Thin) QR.
+            // QR.
             TQR_RmtRmtNvtRvtNN_0(Rm3, Rm2, Nv4, Rv5, N3, N1);
 
             // (Reduced) LS problem, backward substitution.
