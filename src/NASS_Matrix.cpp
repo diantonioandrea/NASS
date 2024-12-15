@@ -8,7 +8,12 @@
  * 
  */
 
+#include <cstdlib>
+#include <ctime>
 #include <print>
+
+#include <cmath>
+#define _USE_MATH_DEFINES
 
 #include "../include/Reals.hpp"
 #include "../include/Matrix.hpp"
@@ -65,6 +70,27 @@ namespace nass {
                 for(natural_t N4 = 0; N4 < N1; ++N4)
                     for(natural_t N5 = 0; N5 < N0; ++N5)
                         Rmt0[N3 * N0 + N5] += Rm0[N4 * N0 + N5] * Rm1[N3 * N1 + N4];
+        }
+
+
+        /**
+         * @brief Gauss embedding.
+         * 
+         * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
+         */
+        [[nodiscard]] real_t* Gs_NN_Rm(const natural_t& N0, const natural_t& N1) {
+            std::srand(std::time(nullptr));
+
+            real_t* Rm0 = new real_t[N0 * N1];
+
+            for(natural_t N2 = 0; N2 < N0 * N1; ++N2) {
+                const real_t R0 = static_cast<real_t>(std::rand()) / RAND_MAX;
+
+                Rm0[N2] = std::sqrt(-2.0 * std::log(R0)) * std::cos(2.0 * M_PI * R0);
+            }
+
+            return Rm0;
         }
 
 
