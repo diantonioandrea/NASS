@@ -15,4 +15,7 @@
 #include <ctime>
 #include <print>
 
+#include <chrono>
+using namespace std::chrono;
+
 #endif
