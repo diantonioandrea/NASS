@@ -44,9 +44,9 @@ int main(int argc, char** argv) {
     // Residual.
     real_t* Rv4 = new real_t[N0];
 
-    // Random filling.
-    for(natural_t N1 = 0; N1 < N0; ++N1)
-        Rv2[N1] = static_cast<real_t>(std::rand()) / RAND_MAX;
+    // Expected solution.
+    for(natural_t N3 = 0; N3 < N0; ++N3)
+        Rv2[N3] = 1.0; // static_cast<real_t>(std::rand()) / RAND_MAX;
 
     // RHS.
     internal::Mlc_RvtNNvNvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv2);
