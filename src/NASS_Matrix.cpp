@@ -33,6 +33,42 @@ namespace nass {
 
 
         /**
+         * @brief Products between two real_t*.
+         * 
+         * @param Rmt0 Real matrix [Rm], target [t].
+         * @param TRm0 Real matrix [Rm], transposed.
+         * @param Rm0 Real matrix [Rm].
+         * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
+         * @param N2 Natural number [N].
+         */
+        void Ml_RmtTRmRmNNN_0(real_t* Rmt0, const real_t* TRm0, const real_t* Rm0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
+            for(natural_t N3 = 0; N3 < N2; ++N3)
+                for(natural_t N4 = 0; N4 < N1; ++N4)
+                    for(natural_t N5 = 0; N5 < N0; ++N5)
+                        Rmt0[N3 * N1 + N4] += TRm0[N4 * N0 + N5] * Rm0[N3 * N0 + N5];
+        }
+
+
+        /**
+         * @brief Products between two real_t*.
+         * 
+         * @param Rmt0 Real matrix [Rm], target [t].
+         * @param Rm0 Real matrix [Rm].
+         * @param Rm1 Real matrix [Rm].
+         * @param N0 Natural number [N].
+         * @param N1 Natural number [N].
+         * @param N2 Natural number [N].
+         */
+        void Ml_RmtRmRmNNN_0(real_t* Rmt0, const real_t* Rm0, const real_t* Rm1, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
+            for(natural_t N3 = 0; N3 < N2; ++N3)
+                for(natural_t N4 = 0; N4 < N1; ++N4)
+                    for(natural_t N5 = 0; N5 < N0; ++N5)
+                        Rmt0[N3 * N0 + N5] += Rm0[N4 * N0 + N5] * Rm1[N3 * N1 + N4];
+        }
+
+
+        /**
          * @brief Prints a (matrix) real_t*.
          * 
          * @param Rm0 Real matrix [Rm].
