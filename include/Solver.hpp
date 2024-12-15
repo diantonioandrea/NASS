@@ -22,7 +22,7 @@ namespace nass {
 
         // sGMRES.
 
-        real_t sGMRES_RvNNvNvRvRvNN_0(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
+        std::array<real_t, 2> sGMRES_RvNNvNvRvRvNN_RR(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
 
     }
 }
