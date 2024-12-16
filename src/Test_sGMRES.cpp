@@ -90,11 +90,12 @@ int main(int argc, char** argv) {
     internal::RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rv1, Rv3);
 
     // Relative residual.
-    const real_t R2 = internal::Nr_RvN_R(Rv4, N0) / internal::Nr_RvN_R(Rv3, N0);
+    const real_t R2 = internal::Nr_RvN_R(Rv4, N0);
+    const real_t R3 = R2 / internal::Nr_RvN_R(Rv3, N0);
 
     // Output.
     std::println("--- sGMRES testing.");
-    std::println("Residual, relative:  {:.3e}", R2);
+    std::println("Results:\n\tResidual: {:.3e}\n\tResidual, relative:  {:.3e}", R2, R3);
     std::println("Estimates:\n\tResidual: {:.3e}\n\tCondition: {:.3e}", R0, R1);
     std::println("Timings:\n\tLoading: {}\n\tsGMRES: {}", D0, D1);
     std::println("---");
