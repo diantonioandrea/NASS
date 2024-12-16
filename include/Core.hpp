@@ -121,7 +121,7 @@ namespace nass {
 
 // Checks.
 
-#ifndef NDEBUG
+#ifndef NVERBOSE
 #ifdef _OPENMP
 #pragma message "OpenMP enabled."
 #else
