@@ -222,7 +222,7 @@ namespace nass {
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
 
-            std::println("\tQR decomposition: {}", std::chrono::duration_cast<std::chrono::microseconds>(T1 - T0));
+            std::println("\tQR decomposition: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
             #endif
 
 
@@ -266,7 +266,7 @@ namespace nass {
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
 
-            std::println("\tLS problem: {}", std::chrono::duration_cast<std::chrono::nanoseconds>(T1 - T0));
+            std::println("\tLS problem: {}", std::chrono::duration_cast<std::chrono::microseconds>(T1 - T0));
             #endif
 
 
