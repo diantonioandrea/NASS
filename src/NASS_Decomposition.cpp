@@ -144,8 +144,8 @@ namespace nass {
 
             // First column.
 
-            // // Pivoting.
-            // Pv_RmtNvtNNN_0(Rmt1, Nvt0, N0, N1, 0);
+            // Pivoting.
+            Pv_RmtNvtNNN_0(Rmt1, Nvt0, N0, N1, 0);
 
             // Copy.
             Cp_RvtRvN_0(Rv0, Rmt1, N0);
@@ -176,8 +176,8 @@ namespace nass {
             // Other columns.
             for(natural_t N2 = 1; N2 < N1; ++N2) {
 
-                // // Pivoting.
-                // Pv_RmtNvtNNN_0(Rmt1, Nvt0, N0, N1, N2);
+                // Pivoting.
+                Pv_RmtNvtNNN_0(Rmt1, Nvt0, N0, N1, N2);
 
                 // Copy.
                 Cp_RvtRvN_0(Rv0 + N2, Rmt1 + N2 * (N0 + 1), N0 - N2);
