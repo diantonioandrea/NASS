@@ -111,7 +111,7 @@ namespace nass {
          * @param N1 Natural number [N].
          */
         void Lh_RvtRvNN_0(real_t* Rvt0, const real_t* Rv0, const natural_t& N0, const natural_t& N1) {
-            const real_t R0 = 2.0 * Dt_RvRvN_R(Rvt0 + N0 - N1, Rv0 + N0 - N1, N1);
+            const real_t R0 = 2.0 * NPDt_RvRvN_R(Rvt0 + N0 - N1, Rv0 + N0 - N1, N1);
 
             for(natural_t N2 = N0 - N1; N2 < N0; ++N2)
                 Rvt0[N2] -= R0 * Rv0[N2];
