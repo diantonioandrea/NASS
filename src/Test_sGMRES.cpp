@@ -83,8 +83,8 @@ int main(int argc, char** argv) {
 
 
     // Durations.
-    auto D0 = duration_cast<seconds>(T1 - T0);
-    auto D1 = duration_cast<seconds>(T3 - T2);
+    auto D0 = duration_cast<milliseconds>(T1 - T0);
+    auto D1 = duration_cast<milliseconds>(T3 - T2);
 
     // Residual.
     internal::RMlc_RvtNNvNvRvRvRv_0(Rv4, N0, Nv0, Nv1, Rv0, Rv1, Rv3);
@@ -93,10 +93,11 @@ int main(int argc, char** argv) {
     const real_t R2 = internal::Nr_RvN_R(Rv4, N0) / internal::Nr_RvN_R(Rv3, N0);
 
     // Output.
-    std::println("Residual, estimate:  {:.3e}", R0);
-    std::println("Condition, estimate: {:.3e}\n", R1);
-    std::println("Residual, relative:  {:.3e}\n", R2);
-    std::println("Elapsed:\n\tLoading: {}\n\tsGMRES: {}", D0, D1);
+    std::println("--- sGMRES testing.");
+    std::println("Residual, relative:  {:.3e}", R2);
+    std::println("Estimates:\n\tResidual: {:.3e}\n\tCondition: {:.3e}", R0, R1);
+    std::println("Timings:\n\tLoading: {}\n\tsGMRES: {}", D0, D1);
+    std::println("---");
 
     // Clean-up.
     delete[] Nv0; delete[] Nv1; delete[] Rv0;
