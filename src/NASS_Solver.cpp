@@ -109,11 +109,12 @@ namespace nass {
             real_t* Rv4 = new real_t[N0];
             real_t* Rv5 = new real_t[N3];
 
-            // LS solution.
+            // LS solution and permuted version.
             real_t* Rv6 = new real_t[N1];
+            real_t* Rv7 = new real_t[N1];
 
             // Residual estimates.
-            real_t* Rv7 = new real_t[N3];
+            real_t* Rv8 = new real_t[N3];
 
 
             // sGMRES.
@@ -128,7 +129,7 @@ namespace nass {
             Ml_RvtRmRvNN_0(Rv5, Rm0, Rv4, N3, N0);
             #endif
 
-            Cp_RvtRvN_0(Rv7, Rv5, N3);
+            Cp_RvtRvN_0(Rv8, Rv5, N3);
 
             // Arnoldi.
 
@@ -256,12 +257,8 @@ namespace nass {
             }
 
             // Pivoting.
-            for(natural_t N5 = 0; N5 < N1; ++N5) {
-                const real_t R2 = Rv6[N5];
-                Rv6[N5] = Rv6[Nv4[N5]];
-                Rv6[Nv4[N5]] = R2;
-            }
-
+            for(natural_t N5 = 0; N5 < N1; ++N5)
+                Rv7[Nv4[N5]] = Rv6[N5];
 
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
@@ -271,11 +268,11 @@ namespace nass {
 
 
             // Residual estimation.
-            REst_RvtRmRvNN_0(Rv7, Rm4, Rv5, N3, N1);
-            const real_t R2 = Nr_RvN_R(Rv7, N3);
+            REst_RvtRmRvNN_0(Rv8, Rm4, Rv5, N3, N1);
+            const real_t R2 = Nr_RvN_R(Rv8, N3);
 
             // Solution update.
-            Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv6, N0, N1);
+            Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv7, N0, N1);
 
 
             // CLEAN-UP AND RETURN.
@@ -294,7 +291,7 @@ namespace nass {
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
             delete[] Rv6;
-            delete[] Rv7;
+            delete[] Rv8;
 
             #ifndef NVERBOSE
             std::println("---");
