@@ -25,6 +25,7 @@ namespace nass {
         // Dot product.
 
         real_t Dt_RvRvN_R(const real_t*, const real_t*, const natural_t&);
+        real_t NPDt_RvRvN_R(const real_t*, const real_t*, const natural_t&);
 
         // Norm.
 
