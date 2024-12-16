@@ -14,6 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <cstring>
 
 #include "../include/Sparse.hpp"
 
@@ -33,6 +34,9 @@ namespace nass {
             // Line and file.
             std::string St1;
             std::ifstream F0(St0);
+
+            // Skips.
+            do { std::getline(F0, St1); } while(std::strcmp(&St1[0], "%") == 0);
 
             // First line.
             std::getline(F0, St1);
@@ -101,6 +105,9 @@ namespace nass {
             // Line and file.
             std::string St1;
             std::ifstream F0(St0);
+
+            // Skips.
+            do { std::getline(F0, St1); } while(std::strcmp(&St1[0], "%") == 0);
 
             // First line.
             std::getline(F0, St1);
