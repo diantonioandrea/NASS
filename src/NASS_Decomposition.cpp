@@ -71,7 +71,7 @@ namespace nass {
                 const natural_t N4 = N3 * N0;
                 const natural_t N5 = N0 - N2;
 
-                const real_t R0 = 2.0 * Dt_RvRvN_R(Rmt0 + N4 + N5, Rv0 + N5, N2);
+                const real_t R0 = 2.0 * NPDt_RvRvN_R(Rmt0 + N4 + N5, Rv0 + N5, N2);
 
                 for(natural_t N6 = N0 - N2; N6 < N0; ++N6)
                     Rmt0[N4 + N6] -= Rv0[N6] * R0;
