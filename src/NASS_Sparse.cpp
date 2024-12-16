@@ -35,12 +35,8 @@ namespace nass {
             std::string St1;
             std::ifstream F0(St0);
 
-            // Skips.
-            do { std::getline(F0, St1); } while(std::strcmp(&St1[0], "%") == 0);
-
-            // First line.
-            if(std::strcmp(&St1[0], "%") == 0) // Clang.
-                std::getline(F0, St1);
+            // Skips and first line.
+            do { std::getline(F0, St1); } while(St1[0] == '%');
 
             // First line stream.
             std::istringstream Ss0(St1);
@@ -107,12 +103,8 @@ namespace nass {
             std::string St1;
             std::ifstream F0(St0);
 
-            // Skips.
-            do { std::getline(F0, St1); } while(std::strcmp(&St1[0], "%") == 0);
-
-            // First line.
-            if(std::strcmp(&St1[0], "%") == 0) // Clang.
-                std::getline(F0, St1);
+            // Skips and first line.
+            do { std::getline(F0, St1); } while(St1[0] == '%');
 
             // First line stream.
             std::istringstream Ss0(St1);
