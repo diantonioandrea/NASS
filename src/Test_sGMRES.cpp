@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 
     // Output.
     std::println("--- sGMRES testing.");
-    std::println("Results:\n\tResidual: {:.3e}\n\tResidual, relative:  {:.3e}", R2, R3);
+    std::println("Results:\n\tResidual: {:.3e}\n\tResidual, relative: {:.3e}", R2, R3);
     std::println("Estimates:\n\tResidual: {:.3e}\n\tCondition: {:.3e}", R0, R1);
     std::println("Timings:\n\tLoading: {}\n\tsGMRES: {}", D0, D1);
     std::println("---");
