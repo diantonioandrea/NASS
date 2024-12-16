@@ -107,6 +107,57 @@ namespace nass {
 
 
         /**
+         * @brief Non-parallel dot product between two real_t*, both of size N0.
+         * 
+         * @param Rv0 Real vector [Rv].
+         * @param Rv1 Real vector [Rv].
+         * @param N0 Natural number [N].
+         * @return real_t Real number [R].
+         */
+        real_t NPDt_RvRvN_R(const real_t* Rv0, const real_t* Rv1, const natural_t& N0) {
+            natural_t N1 = 0;
+
+            #ifdef _NEON
+            
+            reals_t Rs0 = Ex_R_Rs(0.0), Rs1 = Ex_R_Rs(0.0);
+
+            for(; N1 < N0 - LOOP_OFFSET + 1; N1 += LOOP_OFFSET) {
+                const reals_t Rs00 = Ld_Rv_Rs(Rv0 + N1 + MEMORY_OFFSET_0);
+                const reals_t Rs01 = Ld_Rv_Rs(Rv0 + N1 + MEMORY_OFFSET_1);
+
+                const reals_t Rs10 = Ld_Rv_Rs(Rv1 + N1 + MEMORY_OFFSET_0);
+                const reals_t Rs11 = Ld_Rv_Rs(Rv1 + N1 + MEMORY_OFFSET_1);
+
+                Rs0 = Ad_RsRs_Rs(Rs0, Ml_RsRs_Rs(Rs00, Rs10));
+                Rs1 = Ad_RsRs_Rs(Rs1, Ml_RsRs_Rs(Rs01, Rs11));
+            }
+
+            real_t R0 = Rd_Rs_R(Rs0) + Rd_Rs_R(Rs1);
+
+            for(; N1 < N0; ++N1)
+                R0 += Rv0[N1] * Rv1[N1];
+
+            return R0;
+
+            #else
+
+            real_t R0 = 0.0, R1 = 0.0;
+
+            for(; N1 < N0 - 1; N1 += 2) {
+                R0 += Rv0[N1] * Rv1[N1];
+                R1 += Rv0[N1 + 1] * Rv1[N1 + 1];
+            }
+
+            for(; N1 < N0; ++N1)
+                R0 += Rv0[N1] * Rv1[N1];
+
+            return R0 + R1;
+
+            #endif
+        }
+
+
+        /**
          * @brief Norm of a real_t*.
          * 
          * @param Rv0 Real vector [Rv].
