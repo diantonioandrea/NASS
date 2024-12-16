@@ -2,6 +2,12 @@
 
 CXXFLAGS += -Wall -std=c++23 -pedantic -I./include -march=native -Ofast
 
+# # Verbosity.
+# CXXFLAGS += -DNVERBOSE
+
+# # Debugging.
+# CXXFLAGS += -DNDEBUG
+
 ifeq ($(shell uname),Darwin)
 ifneq ($(OpenMP),) # Apple's Clang, custom OpenMP installation under $OpenMP.
 CXXFLAGS += -Xclang -fopenmp
