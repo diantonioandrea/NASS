@@ -32,6 +32,9 @@ namespace nass {
         real_t Nr_RvN_R(const real_t*, const natural_t&);
         void Nrz_RvtN_0(real_t*, const natural_t&);
 
+        real_t NPNr_RvN_R(const real_t*, const natural_t&);
+        void NPNrz_RvtN_0(real_t*, const natural_t&);
+
         // Projections.
         
         void Prj_RvtRvRvN_0(real_t*, const real_t*, const real_t*, const natural_t&);
