@@ -168,9 +168,12 @@ namespace nass {
          * @param Rv1 Real vector [Rv].
          */
         void Mlc_RvtNNvNvRvRv_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1) {
-            for(natural_t N1 = 0; N1 < N0; ++N1)
+            for(natural_t N1 = 0; N1 < N0; ++N1) {
+                const real_t R0 = Rv1[N1];
+
                 for(natural_t N2 = Nv0[N1]; N2 < Nv0[N1 + 1]; ++N2)
-                    Rvt0[Nv1[N2]] += Rv0[N2] * Rv1[N1];
+                    Rvt0[Nv1[N2]] += Rv0[N2] * R0;
+            }
         }
 
 
@@ -207,29 +210,35 @@ namespace nass {
         void RMlc_RvtNNvNvRvRvRv_0(real_t* Rvt0, const natural_t& N0, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rv1, const real_t* Rv2) {
             Cp_RvtRvN_0(Rvt0, Rv2, N0);
 
-            for(natural_t N1 = 0; N1 < N0; ++N1)
+            for(natural_t N1 = 0; N1 < N0; ++N1) {
+                const real_t R0 = Rv1[N1];
+
                 for(natural_t N2 = Nv0[N1]; N2 < Nv0[N1 + 1]; ++N2)
-                    Rvt0[Nv1[N2]] -= Rv0[N2] * Rv1[N1];
+                    Rvt0[Nv1[N2]] -= Rv0[N2] * R0;
+            }
         }
 
 
         /**
          * @brief Multiplies a (CSC) sparse matrix by a real_t*.
          * 
-         * @param Rmt0 Real matrix [Rm], target [t].
+         * @param Rmt0 Real matrix [Rm], target [t]. Size: N0 x N2.
          * @param N0 Natural number [N].
          * @param N1 Natural number [N].
          * @param Nv0 Natural vector [Nv].
          * @param Nv1 Natural vector [Nv].
          * @param Rv0 Real vector [Rv].
-         * @param Rm0 Real matrix [Rm].
+         * @param Rm0 Real matrix [Rm]. Size: N1 x N2.
          * @param N2 Natural number [N].
          */
         void Mlc_RmtNNNvNvRvRmN_0(real_t* Rmt0, const natural_t& N0, const natural_t& N1, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rm0, const natural_t& N2) {
-
-            #pragma omp parallel for
             for(natural_t N3 = 0; N3 < N2; ++N3)
-                Mlc_RvtNNvNvRvRv_0(Rmt0 + N3 * N0, N1, Nv0, Nv1, Rv0, Rm0 + N3 * N1);
+                for(natural_t N4 = 0; N4 < N1; ++N4) {
+                    const real_t R0 = Rm0[N3 * N1 + N4];
+
+                    for(natural_t N5 = Nv0[N4]; N5 < Nv0[N4 + 1]; ++N5)
+                        Rmt0[N3 * N0 + Nv1[N5]] += Rv0[N5] * R0;
+                }
         }
 
 
@@ -245,7 +254,8 @@ namespace nass {
             
             const natural_t N2 = 2 * (N0 + 1);
             const natural_t N3 = static_cast<natural_t>(std::ceil(2.0 * std::log(N0 + 1.0)));
-            const real_t R0 = 2.0 / std::sqrt(static_cast<real_t>(N2));
+
+            const real_t R0 = 1.0 / std::sqrt(static_cast<real_t>(N2)), R1 = -R0;
 
             natural_t* Nv0 = new natural_t[N1 + 1];
             natural_t* Nv1 = new natural_t[N3 * N1];
@@ -284,8 +294,11 @@ namespace nass {
                         // Check.
                         Bv0[Nv1[N4 * N3 + N5]] = true;
 
+                        // // Value.
+                        // do { Rv0[N4 * N3 + N5] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0; } while(std::abs(Rv0[N4 * N3 + N5]) <= real_tol);
+
                         // Value.
-                        do { Rv0[N4 * N3 + N5] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0; } while(std::abs(Rv0[N4 * N3 + N5]) <= real_tol);
+                        Rv0[N4 * N3 + N5] = (std::rand() % 2) ? R0 : R1;
                     }
 
                 // Check.
