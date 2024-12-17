@@ -241,7 +241,7 @@ namespace nass {
         static inline void Rd_RstRs_0(reals_t &Rst0, const reals_t &Rs0) { Rst0 = Ad_RsRs_Rs(Rst0, Rs0); }
         static inline void In_Rst_0(reals_t &Rst0) { Rst0 = Ex_R_Rs(0.0); }
 
-        #pragma omp declare reduction(Rd_Rs: reals_t: Rd_RstRs_0(omp_out, omp_in)) initializer(In_Rst_0(omp_out))
+        #pragma omp declare reduction(Rd_Rs: reals_t: Rd_RstRs_0(omp_out, omp_in)) initializer(In_Rst_0(omp_priv))
         #endif
 
     }
