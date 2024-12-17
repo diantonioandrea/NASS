@@ -255,11 +255,50 @@ namespace nass {
             for(natural_t N4 = 0; N4 < N1 + 1; ++N4)
                 Nv0[N4] = N4 * N3;
 
-            #pragma omp parallel for
-            for(natural_t N4 = 0; N4 < N3 * N1; ++N4) {
-                Nv1[N4] = std::rand() % N2;
-                Rv0[N4] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0;
-            }
+            // Checks.
+            bool* Bv0 = new bool[N2];
+            bool B0 = true;
+
+            do {
+                for(natural_t N4 = 0; N4 < N1; ++N4)
+                    for(natural_t N5 = 0; N5 < N3; ++N5) {
+
+                        // Check.
+                        bool B1;
+
+                        do {
+                            
+                            // Row index.
+                            Nv1[N4 * N3 + N5] = std::rand() % N2;
+
+                            // Check.
+                            B1 = false;
+                            for(natural_t N6 = 0; N6 < N5; ++N6)
+                                if(Nv1[N4 * N3 + N5] == Nv1[N4 * N3 + N6]) {
+                                    B1 = true;
+                                    break;
+                                }
+
+                        } while(B1);
+
+                        // Check.
+                        Bv0[Nv1[N4 * N3 + N5]] = true;
+
+                        // Value.
+                        Rv0[N4 * N3 + N5] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0;
+                    }
+
+                // Check.
+                B0 = false;
+                for(natural_t N4 = 0; N4 < N2; ++N4)
+                    if(!Bv0[N4]) {
+                        B0 = true;
+                        break;
+                    }
+
+            } while(B0);
+
+            delete[] Bv0;
 
             return {Nv0, Nv1, Rv0};
         }
