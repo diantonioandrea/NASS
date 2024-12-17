@@ -8,8 +8,8 @@
  * 
  */
 
-#ifndef NASS_SOLVER_HPP
-#define NASS_SOLVER_HPP
+#ifndef NASS_DECOMPOSITION_HPP
+#define NASS_DECOMPOSITION_HPP
 
 #include "./Core.hpp"
 
