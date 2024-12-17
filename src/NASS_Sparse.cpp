@@ -285,7 +285,7 @@ namespace nass {
                         Bv0[Nv1[N4 * N3 + N5]] = true;
 
                         // Value.
-                        Rv0[N4 * N3 + N5] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0;
+                        do { Rv0[N4 * N3 + N5] = (static_cast<real_t>(std::rand()) / RAND_MAX - 0.5) * R0; } while(std::abs(Rv0[N4 * N3 + N5]) <= real_tol);
                     }
 
                 // Check.
