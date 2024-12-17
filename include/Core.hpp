@@ -21,7 +21,7 @@
 
 // Neon support and floating-point types.
 
-#ifdef __ARM_NEON
+#if defined(__ARM_NEON) && !defined(NNEON)
 #ifndef _NEON
 #define _NEON // Custom Neon flag.
 #endif
