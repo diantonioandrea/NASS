@@ -80,41 +80,40 @@ namespace nass {
 
 
         /**
-         * @brief Right Householder product.
+         * @brief Q product.
          * 
-         * @param Rmt0 Real matrix [Rm], target [t].
-         * @param Rv0 Real vector [Rv].
+         * @param Rvt0 Real vector [Rv], target [t].
+         * @param Rm0 Real matrix [Rm].
          * @param N0 Natural number [N].
          * @param N1 Natural number [N].
+         * @param N2 Natural number [N].
          */
-        void Rh_RmtRvNN_0(real_t* Rmt0, const real_t* Rv0, const natural_t& N0, const natural_t& N1) {
-            for(natural_t N3 = 0; N3 < N0; ++N3) {
-                real_t R0 = 0.0;
+        void Mq_RvtRmNN_0(real_t* Rvt0, const real_t* Rm0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
+            for(natural_t N3 = N1; N3 > 0; --N3) {
+                const real_t R0 = 2.0 * NPDt_RvRvN_R(Rm0 + (N3 - 1) * (N0 + 1), Rvt0 + (N3 - 1), N0 - (N3 - 1));
 
-                for(natural_t N5 = N0 - N1; N5 < N0; ++N5)
-                    R0 += Rmt0[N5 * N0 + N3] * Rv0[N5];
-
-                R0 *= 2.0;
-
-                for(natural_t N5 = N0 - N1; N5 < N0; ++N5)
-                    Rmt0[N5 * N0 + N3] -= R0 * Rv0[N5];
+                for(natural_t N4 = N3 - 1; N4 < N0; ++N4)
+                    Rvt0[N4] -= R0 * Rm0[(N3 - 1) * N0 + N4];
             }
         }
 
 
         /**
-         * @brief Left Householder product.
+         * @brief Transposed Q product.
          * 
          * @param Rvt0 Real vector [Rv], target [t].
-         * @param Rv0 Real vector [Rv].
+         * @param Rm0 Real matrix [Rm].
          * @param N0 Natural number [N].
          * @param N1 Natural number [N].
+         * @param N2 Natural number [N].
          */
-        void Lh_RvtRvNN_0(real_t* Rvt0, const real_t* Rv0, const natural_t& N0, const natural_t& N1) {
-            const real_t R0 = 2.0 * NPDt_RvRvN_R(Rvt0 + N0 - N1, Rv0 + N0 - N1, N1);
+        void Mqt_RvtRmNN_0(real_t* Rvt0, const real_t* Rm0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
+            for(natural_t N3 = 0; N3 < N1; ++N3) {
+                const real_t R0 = 2.0 * NPDt_RvRvN_R(Rm0 + N3 * (N0 + 1), Rvt0 + N3, N0 - N3);
 
-            for(natural_t N2 = N0 - N1; N2 < N0; ++N2)
-                Rvt0[N2] -= R0 * Rv0[N2];
+                for(natural_t N4 = N3; N4 < N0; ++N4)
+                    Rvt0[N4] -= R0 * Rm0[N3 * N0 + N4];
+            }
         }
 
         
@@ -125,12 +124,11 @@ namespace nass {
          * @param Rmt1 Real matrix [Rm], target [t].
          * @param Rmt1 Real matrix [Rm], target [t].
          * @param Nvt0 Natural vector [Nv], target [t].
-         * @param Rvt0 Real vector [Rm], target [t].
          * @param N0 Natural number [N].
          * @param N1 Natural number [N].
          * @param N2 Natural number [N].
          */
-        void TQR_RmtRmtNvtRvtNN_0(real_t* Rmt0, real_t* Rmt1, natural_t* Nvt0, real_t* Rvt0, const natural_t& N0, const natural_t& N1) {
+        void TQR_RmtRmtNvtNN_0(real_t* Rmt0, real_t* Rmt1, natural_t* Nvt0, const natural_t& N0, const natural_t& N1) {
             #ifndef NDEBUG // Integrity check.
             assert(N1 < N0 - 1);
             #endif
@@ -157,21 +155,10 @@ namespace nass {
             NPNrz_RvtN_0(Rv0, N0);
 
             // Q.
-            for(natural_t N2 = 0; N2 < N0; ++N2) {
-                for(natural_t N3 = 0; N3 < N2; ++N3)
-                    Rmt0[N2 * N0 + N3] = -2.0 * Rv0[N2] * Rv0[N3];
-
-                for(natural_t N3 = N2 + 1; N3 < N0; ++N3)
-                    Rmt0[N2 * N0 + N3] = -2.0 * Rv0[N2] * Rv0[N3];
-
-                Rmt0[N2 * (N0 + 1)] = 1.0 - 2.0 * Rv0[N2] * Rv0[N2];
-            }
+            Cp_RvtRvN_0(Rmt0, Rv0, N0);
 
             // R.
             Lh_RmtRvNNN_0(Rmt1, Rv0, N0, N1, N0);
-
-            // Vector.
-            Lh_RvtRvNN_0(Rvt0, Rv0, N0, N0);
 
             // Other columns.
             for(natural_t N2 = 1; N2 < N1; ++N2) {
@@ -189,13 +176,10 @@ namespace nass {
                 NPNrz_RvtN_0(Rv0 + N2, N0 - N2);
 
                 // Q.
-                Rh_RmtRvNN_0(Rmt0, Rv0, N0, N0 - N2);
+                Cp_RvtRvN_0(Rmt0 + N2 * (N0 + 1), Rv0 + N2, N0 - N2);
 
                 // R.
                 Lh_RmtRvNNN_0(Rmt1, Rv0, N0, N1, N0 - N2);
-
-                // Vector.
-                Lh_RvtRvNN_0(Rvt0, Rv0, N0, N0 - N2);
             }
 
             delete[] Rv0;
