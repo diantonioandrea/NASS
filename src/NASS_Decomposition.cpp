@@ -31,11 +31,11 @@ namespace nass {
          * @param N2 Natural number [N].
          */
         void Pv_RmtNvtNNN_0(real_t* Rmt0, natural_t* Nvt0, const natural_t& N0, const natural_t& N1, const natural_t& N2) {
-            real_t R0 = Nr_RvN_R(Rmt0 + N2 * (N0 + 1), N0 - N2);
+            real_t R0 = NPNr_RvN_R(Rmt0 + N2 * (N0 + 1), N0 - N2);
             natural_t N3 = N2;
 
             for(natural_t N4 = N2 + 1; N4 < N1; ++N4) {
-                const real_t R1 = Nr_RvN_R(Rmt0 + N4 * N0 + N2, N0 - N2);
+                const real_t R1 = NPNr_RvN_R(Rmt0 + N4 * N0 + N2, N0 - N2);
 
                 if(R1 > R0) {
                     R0 = R1;
@@ -151,10 +151,10 @@ namespace nass {
             Cp_RvtRvN_0(Rv0, Rmt1, N0);
 
             // Direction.
-            Rv0[0] -= std::copysign(1.0, Rv0[0]) * Nr_RvN_R(Rv0, N0);
+            Rv0[0] -= std::copysign(1.0, Rv0[0]) * NPNr_RvN_R(Rv0, N0);
 
             // Normalization.
-            Nrz_RvtN_0(Rv0, N0);
+            NPNrz_RvtN_0(Rv0, N0);
 
             // Q.
             for(natural_t N2 = 0; N2 < N0; ++N2) {
@@ -183,10 +183,10 @@ namespace nass {
                 Cp_RvtRvN_0(Rv0 + N2, Rmt1 + N2 * (N0 + 1), N0 - N2);
 
                 // Direction.
-                Rv0[N2] -= std::copysign(1.0, Rv0[N2]) * Nr_RvN_R(Rv0 + N2, N0 - N2);
+                Rv0[N2] -= std::copysign(1.0, Rv0[N2]) * NPNr_RvN_R(Rv0 + N2, N0 - N2);
 
                 // Normalization.
-                Nrz_RvtN_0(Rv0 + N2, N0 - N2);
+                NPNrz_RvtN_0(Rv0 + N2, N0 - N2);
 
                 // Q.
                 Rh_RmtRvNN_0(Rmt0, Rv0, N0, N0 - N2);
