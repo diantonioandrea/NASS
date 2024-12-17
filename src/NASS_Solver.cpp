@@ -26,22 +26,6 @@ namespace nass {
     namespace internal {
 
         /**
-         * @brief Residual estimate.
-         * 
-         * @param Rvt0 Real vector [Rv], target [t].
-         * @param Rm0 Real matrix [Rm].
-         * @param Rv0 Real vector [Rv].
-         * @param N0 Natural number [N].
-         * @param N1 Natural number [N].
-         */
-        void REst_RvtRmRvNN_0(real_t* Rvt0, const real_t* Rm0, const real_t* Rv0, const natural_t& N0, const natural_t& N1) {
-            for(natural_t N2 = 0; N2 < N1; ++N2)
-                for(natural_t N3 = 0; N3 < N0; ++N3)
-                    Rvt0[N3] -= Rm0[N2 * N0 + N3] * Rv0[N2];
-        }
-
-
-        /**
          * @brief Sketched GMRES.
          *
          * @param Rvt0 Real vector [Rv], target [t].
@@ -99,7 +83,7 @@ namespace nass {
             real_t* Rm3 = new real_t[N3 * N1];
 
             // QR.
-            real_t* Rm4 = new real_t[N3 * N3];
+            real_t* Rm4 = new real_t[N3 * N1];
             natural_t* Nv4 = new natural_t[N1];
 
             // Minimizer.
@@ -217,7 +201,7 @@ namespace nass {
 
 
             // QR.
-            TQR_RmtRmtNvtRvtNN_0(Rm4, Rm3, Nv4, Rv5, N3, N1);
+            TQR_RmtRmtNvtNN_0(Rm4, Rm3, Nv4, N3, N1);
 
 
             #ifndef NVERBOSE
@@ -246,6 +230,9 @@ namespace nass {
             #endif
 
 
+            // (Reduced) LS problem, Qt.
+            Mqt_RvtRmNN_0(Rv5, Rm4, N3, N1, N1);
+
             // (Reduced) LS problem, backward substitution.
             for(natural_t N5 = N1; N5 > 0; --N5) {
                 real_t R2 = 0.0;
@@ -267,8 +254,14 @@ namespace nass {
             #endif
 
 
-            // Residual estimation.
-            REst_RvtRmRvNN_0(Rv8, Rm4, Rv5, N3, N1);
+            // Residual estimation, Q.
+            Mq_RvtRmNN_0(Rv5, Rm4, N3, N1, N1);
+
+            // Residual estimation, subtraction.
+            for(natural_t N5 = 0; N5 < N3; ++N5)
+                Rv8[N5] -= Rv5[N5];
+
+            // Residual estimation. [!] Q needs to be truncated.
             const real_t R2 = Nr_RvN_R(Rv8, N3);
 
             // Solution update.
