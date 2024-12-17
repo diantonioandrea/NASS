@@ -23,13 +23,13 @@ namespace nass {
         // Products.
 
         void Lh_RmtRvNNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
-        void Rh_RmtRvNN_0(real_t*, const real_t*, const natural_t&, const natural_t&);
 
-        void Lh_RvtRvNN_0(real_t*, const real_t*, const natural_t&, const natural_t&);
+        void Mq_RvtRmNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
+        void Mqt_RvtRmNN_0(real_t*, const real_t*, const natural_t&, const natural_t&, const natural_t&);
 
         // (Thin) QR.
 
-        void TQR_RmtRmtNvtRvtNN_0(real_t*, real_t*, natural_t*, real_t*, const natural_t&, const natural_t&);
+        void TQR_RmtRmtNvtNN_0(real_t*, real_t*, natural_t*, const natural_t&, const natural_t&);
 
     }
 }
