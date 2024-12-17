@@ -16,10 +16,6 @@
 namespace nass {
     namespace internal {
 
-        // Estimates.
-
-        void REst_RvtRmRvNN_0(real_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
-
         // sGMRES.
 
         std::array<real_t, 2> sGMRES_RvNNvNvRvRvNN_RR(real_t*, const natural_t&, const natural_t*, const natural_t*, const real_t*, const real_t*, const natural_t&, const natural_t&);
