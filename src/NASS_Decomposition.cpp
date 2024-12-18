@@ -145,7 +145,7 @@ namespace nass {
             Cp_RvtRvN_0(Rv0, Rmt1, N0);
 
             // Direction.
-            Rv0[0] -= std::copysign(1.0, Rv0[0]) * NPNr_RvN_R(Rv0, N0);
+            Rv0[0] += std::copysign(1.0, Rv0[0]) * NPNr_RvN_R(Rv0, N0);
 
             // Normalization.
             NPNrz_RvtN_0(Rv0, N0);
@@ -166,7 +166,7 @@ namespace nass {
                 Cp_RvtRvN_0(Rv0 + N2, Rmt1 + N2 * (N0 + 1), N0 - N2);
 
                 // Direction.
-                Rv0[N2] -= std::copysign(1.0, Rv0[N2]) * NPNr_RvN_R(Rv0 + N2, N0 - N2);
+                Rv0[N2] += std::copysign(1.0, Rv0[N2]) * NPNr_RvN_R(Rv0 + N2, N0 - N2);
 
                 // Normalization.
                 NPNrz_RvtN_0(Rv0 + N2, N0 - N2);
