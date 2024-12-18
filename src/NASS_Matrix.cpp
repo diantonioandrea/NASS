@@ -31,9 +31,16 @@ namespace nass {
          * @param N1 Natural number [N].
          */
         void Ml_RvtRmRvNN_0(real_t* Rvt0, const real_t* Rm0, const real_t* Rv0, const natural_t& N0, const natural_t& N1) {
-            for(natural_t N2 = 0; N2 < N1; ++N2)
-                for(natural_t N3 = 0; N3 < N0; ++N3)
-                    Rvt0[N3] += Rm0[N2 * N0 + N3] * Rv0[N2];
+            #pragma omp parallel
+            {
+                for(natural_t N2 = 0; N2 < N1; ++N2) {
+                    const real_t R0 = Rv0[N2];
+
+                    #pragma omp for
+                    for(natural_t N3 = 0; N3 < N0; ++N3)
+                        Rvt0[N3] += Rm0[N2 * N0 + N3] * R0;
+                }
+            }
         }
 
 
