@@ -285,8 +285,7 @@ namespace nass {
                             B1 = false;
                             for(natural_t N6 = 0; N6 < N5; ++N6)
                                 if(Nv1[N4 * N3 + N5] == Nv1[N4 * N3 + N6]) {
-                                    B1 = true;
-                                    break;
+                                    B1 = true; break;
                                 }
 
                         } while(B1);
@@ -305,8 +304,7 @@ namespace nass {
                 B0 = false;
                 for(natural_t N4 = 0; N4 < N2; ++N4)
                     if(!Bv0[N4]) {
-                        B0 = true;
-                        break;
+                        B0 = true; break;
                     }
 
             } while(B0);
