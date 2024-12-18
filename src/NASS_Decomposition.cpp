@@ -8,6 +8,7 @@
  * 
  */
 
+#include <utility>
 #include <cmath>
 
 #ifndef NDEBUG // Assertions.
@@ -44,15 +45,10 @@ namespace nass {
             }
 
             if(N3 != N2) { // [!] Pivoting can be made implicit.
-                for(natural_t N4 = 0; N4 < N0; ++N4) {
-                    real_t R1 = Rmt0[N2 * N0 + N4];
-                    Rmt0[N2 * N0 + N4] = Rmt0[N3 * N0 + N4];
-                    Rmt0[N3 * N0 + N4] = R1;
-                }
-
-                natural_t N4 = Nvt0[N2];
-                Nvt0[N2] = Nvt0[N3];
-                Nvt0[N3] = N4;
+                for(natural_t N4 = 0; N4 < N0; ++N4)
+                    std::swap(Rmt0[N2 * N0 + N4], Rmt0[N3 * N0 + N4]);
+                
+                std::swap(Nvt0[N2], Nvt0[N3]);
             }
         }
 
