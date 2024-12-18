@@ -232,6 +232,8 @@ namespace nass {
          * @param N2 Natural number [N].
          */
         void Mlc_RmtNNNvNvRvRmN_0(real_t* Rmt0, const natural_t& N0, const natural_t& N1, const natural_t* Nv0, const natural_t* Nv1, const real_t* Rv0, const real_t* Rm0, const natural_t& N2) {
+
+            #pragma omp parallel for
             for(natural_t N3 = 0; N3 < N2; ++N3)
                 for(natural_t N4 = 0; N4 < N1; ++N4) {
                     const real_t R0 = Rm0[N3 * N1 + N4];
