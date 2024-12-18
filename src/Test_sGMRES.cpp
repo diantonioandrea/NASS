@@ -59,8 +59,11 @@ int main(int argc, char** argv) {
     real_t* Rv4 = new real_t[N0];
 
     // Expected solution.
-    for(natural_t N3 = 0; N3 < N0; ++N3)
-        Rv2[N3] = 1.0; // static_cast<real_t>(std::rand()) / RAND_MAX;
+    for(natural_t N3 = 0; N3 < N0; ++N3) {
+        const real_t R0 = static_cast<real_t>(std::rand()) / RAND_MAX;
+
+        Rv2[N3] = std::sqrt(-2.0 * std::log(R0)) * std::cos(2.0 * M_PI * R0);
+    }
 
     // RHS.
     internal::Mlc_RvtNNvNvRvRv_0(Rv3, N0, Nv0, Nv1, Rv0, Rv2);
