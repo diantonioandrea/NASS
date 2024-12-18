@@ -91,6 +91,7 @@ namespace nass {
 
             real_t* Rm0 = new real_t[N0 * N1];
 
+            #pragma omp parallel for
             for(natural_t N2 = 0; N2 < N0 * N1; ++N2) {
                 const real_t R0 = static_cast<real_t>(std::rand()) / RAND_MAX;
 
