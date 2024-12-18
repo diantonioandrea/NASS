@@ -73,6 +73,11 @@ namespace nass {
             #endif
 
 
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
+            #endif
+
+
             // Basis.
             real_t* Rm1 = new real_t[N0 * N1];
 
@@ -99,6 +104,13 @@ namespace nass {
 
             // Residual estimates.
             real_t* Rv8 = new real_t[N3];
+
+
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tAllocation: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
 
 
             // sGMRES.
@@ -250,7 +262,12 @@ namespace nass {
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
 
-            std::println("\tLS problem: {}", std::chrono::duration_cast<std::chrono::microseconds>(T1 - T0));
+            std::println("\tLS problem: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
+
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
             #endif
 
 
@@ -268,7 +285,19 @@ namespace nass {
             Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv7, N0, N1);
 
 
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tResidual and solution: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
+
             // CLEAN-UP AND RETURN.
+
+
+            #ifndef NVERBOSE
+            T0 = std::chrono::high_resolution_clock::now();
+            #endif
 
 
             #if defined(SPARSE_SKETCH)
@@ -284,7 +313,16 @@ namespace nass {
             delete[] Rv3;
             delete[] Rv4; delete[] Rv5;
             delete[] Rv6;
+            delete[] Rv7;
             delete[] Rv8;
+
+
+            #ifndef NVERBOSE
+            T1 = std::chrono::high_resolution_clock::now();
+
+            std::println("\tDeallocation: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            #endif
+
 
             #ifndef NVERBOSE
             std::println("---");
