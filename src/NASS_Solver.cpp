@@ -259,6 +259,17 @@ namespace nass {
             for(natural_t N5 = 0; N5 < N1; ++N5)
                 Rv7[Nv4[N5]] = Rv6[N5];
 
+            // Residual estimation, Q.
+            Mq_RvtRmNN_0(Rv5, Rm4, N3, N1, N1);
+
+            // Residual estimation, subtraction.
+            for(natural_t N5 = 0; N5 < N3; ++N5)
+                Rv8[N5] -= Rv5[N5];
+
+            // Residual estimation. [!] Q needs to be truncated.
+            const real_t R2 = Nr_RvN_R(Rv8, N3);
+            
+
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
 
@@ -271,16 +282,6 @@ namespace nass {
             #endif
 
 
-            // Residual estimation, Q.
-            Mq_RvtRmNN_0(Rv5, Rm4, N3, N1, N1);
-
-            // Residual estimation, subtraction.
-            for(natural_t N5 = 0; N5 < N3; ++N5)
-                Rv8[N5] -= Rv5[N5];
-
-            // Residual estimation. [!] Q needs to be truncated.
-            const real_t R2 = Nr_RvN_R(Rv8, N3);
-
             // Solution update.
             Ml_RvtRmRvNN_0(Rvt0, Rm1, Rv7, N0, N1);
 
@@ -288,7 +289,7 @@ namespace nass {
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
 
-            std::println("\tResidual and solution: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
+            std::println("\tSolution update: {}", std::chrono::duration_cast<std::chrono::milliseconds>(T1 - T0));
             #endif
 
 
