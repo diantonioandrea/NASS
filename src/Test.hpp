@@ -15,6 +15,9 @@
 #include <ctime>
 #include <print>
 
+#include <cmath>
+#define _USE_MATH_DEFINES
+
 #include <chrono>
 using namespace std::chrono;
 
