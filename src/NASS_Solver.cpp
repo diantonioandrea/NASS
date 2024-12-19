@@ -268,7 +268,7 @@ namespace nass {
 
             // Residual estimation. [!] Q needs to be truncated.
             const real_t R2 = Nr_RvN_R(Rv8, N3);
-            
+
 
             #ifndef NVERBOSE
             T1 = std::chrono::high_resolution_clock::now();
