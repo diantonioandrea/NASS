@@ -7,10 +7,13 @@ endif
 CXXFLAGS += -Wall -std=c++23 -pedantic -I./include -march=native -Ofast -fopenmp
 LDLIBS += -lgomp
 
-# # Verbosity.
+# Memory priority.
+CXXFLAGS += -DMEMORY_PRIORITY
+
+# # Disables verbosity.
 # CXXFLAGS += -DNVERBOSE
 
-# # Debugging.
+# # Disables debugging.
 # CXXFLAGS += -DNDEBUG
 
 # Headers.
