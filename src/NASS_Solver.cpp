@@ -57,7 +57,7 @@ namespace nass {
             #ifndef MEMORY_PRIORITY
             std::println("--- sGMRES.");
             #else
-            std::println("--- sGMRES, Memory priority.");
+            std::println("--- sGMRES, memory priority.");
             #endif
             std::println("Parameters: {}, {}, {}", N0, N1, N2);
             std::println("Timings:");
