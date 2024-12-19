@@ -96,9 +96,17 @@ int main(int argc, char** argv) {
     const real_t R2 = internal::Nr_RvN_R(Rv4, N0);
     const real_t R3 = R2 / internal::Nr_RvN_R(Rv3, N0);
 
+    // Error.
+    for(natural_t N3 = 0; N3 < N0; ++N3)
+        Rv1[N3] -= Rv2[N3];
+
+    const real_t R4 = internal::Nr_RvN_R(Rv1, N0);
+    const real_t R5 = R4 / internal::Nr_RvN_R(Rv2, N0);
+
     // Output.
     std::println("--- sGMRES testing.");
     std::println("Results:\n\tResidual: {:.3e}\n\tResidual, relative: {:.3e}", R2, R3);
+    std::println("\tError: {:.3e}\n\tError, relative: {:.3e}", R4, R5);
     std::println("Estimates:\n\tResidual: {:.3e}\n\tCondition: {:.3e}", R0, R1);
     std::println("Timings:\n\tLoading: {}\n\tsGMRES: {}", D0, D1);
     std::println("---");
