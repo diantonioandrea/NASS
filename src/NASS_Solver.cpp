@@ -172,9 +172,10 @@ namespace nass {
                 // Copy.
                 Cp_RvtRvN_0(Rm1 + N4 * N0, Rm2 + (N4 - 1) * N0, N0);
 
-                // Orthogonalization.
-                for(natural_t N5 = 0; N5 < N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
+                // (Re-)orthogonalization.
+                for(natural_t N5 = 0; N5 < 2; ++N5)
+                    for(natural_t N6 = 0; N6 < N4; ++N6)
+                        Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N6 * N0, Rm1 + N4 * N0, N0);
 
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N4 * N0, N0);
@@ -189,13 +190,10 @@ namespace nass {
                 // Copy.
                 Cp_RvtRvN_0(Rm1 + N4 * N0, Rm2 + (N4 - 1) * N0, N0);
 
-                // Orthogonalization.
-                for(natural_t N5 = N4 - N2; N5 < N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
-
-                // Re-orthogonalization.
-                for(natural_t N5 = N4 - N2; N5 < N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
+                // (Re-)orthogonalization.
+                for(natural_t N5 = 0; N5 < 2; ++N5)
+                    for(natural_t N6 = N4 - N2; N6 < N4; ++N6)
+                        Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N6 * N0, Rm1 + N4 * N0, N0);
 
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N4 * N0, N0);
@@ -215,9 +213,10 @@ namespace nass {
                 // Sketch application.
                 Mlc_RvtNNvNvRvRv_0(Rm3 + (N4 - 1) * N3, N0, Nv2, Nv3, Rv2, Rm1 + N4 * N0);
 
-                // Orthogonalization.
-                for(natural_t N5 = 0; N5 < N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
+                // (Re-)orthogonalization.
+                for(natural_t N5 = 0; N5 < 2; ++N5)
+                    for(natural_t N6 = 0; N6 < N4; ++N6)
+                        Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N6 * N0, Rm1 + N4 * N0, N0);
 
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N4 * N0, N0);
@@ -241,21 +240,14 @@ namespace nass {
                 // Sketch application.
                 Mlc_RvtNNvNvRvRv_0(Rm3 + (N4 - 1) * N3, N0, Nv2, Nv3, Rv2, Rm1 + N5 * N0);
 
-                // Orthogonalization.
-                for(natural_t N7 = 0; N7 <= N2; ++N7) {
-                    if(N5 == N7)
-                        continue;
+                // (Re-)orthogonalization.
+                for(natural_t N7 = 0; N7 < 2; ++N7)
+                    for(natural_t N8 = 0; N8 <= N2; ++N8) {
+                        if(N5 == N8)
+                            continue;
 
-                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N7 * N0, Rm1 + N5 * N0, N0);
-                }
-
-                // Re-orthogonalization.
-                for(natural_t N7 = 0; N7 <= N2; ++N7) {
-                    if(N5 == N7)
-                        continue;
-
-                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N7 * N0, Rm1 + N5 * N0, N0);
-                }
+                        Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N8 * N0, Rm1 + N5 * N0, N0);
+                    }
 
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N5 * N0, N0);
@@ -410,13 +402,10 @@ namespace nass {
                 // LS column.
                 Mlc_RvtNNvNvRvRv_0(Rm1 + N4 * N0, N0, Nv0, Nv1, Rv0, Rm1 + (N4 - 1) * N0);
 
-                // Orthogonalization.
-                for(natural_t N5 = 0; N5 < N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
-
-                // Re-orthogonalization.
-                for(natural_t N5 = 0; N5 < N4; ++N5)
-                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
+                // (Re-)orthogonalization.
+                for(natural_t N5 = 0; N5 < 2; ++N5)
+                    for(natural_t N6 = 0; N6 < N4; ++N6)
+                        Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N6 * N0, Rm1 + N4 * N0, N0);
 
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N4 * N0, N0);
@@ -444,21 +433,14 @@ namespace nass {
                 // LS column.
                 Mlc_RvtNNvNvRvRv_0(Rm1 + N5 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N6 * N0);
 
-                // Orthogonalization.
-                for(natural_t N7 = 0; N7 <= N2; ++N7) {
-                    if(N5 == N7)
-                        continue;
+                // (Re-)orthogonalization.
+                for(natural_t N7 = 0; N7 < 2; ++N7)
+                    for(natural_t N8 = 0; N8 <= N2; ++N8) {
+                        if(N5 == N8)
+                            continue;
 
-                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N7 * N0, Rm1 + N5 * N0, N0);
-                }
-
-                // Re-orthogonalization.
-                for(natural_t N7 = 0; N7 <= N2; ++N7) {
-                    if(N5 == N7)
-                        continue;
-
-                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N7 * N0, Rm1 + N5 * N0, N0);
-                }
+                        Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N8 * N0, Rm1 + N5 * N0, N0);
+                    }
 
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N5 * N0, N0);
