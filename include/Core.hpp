@@ -34,26 +34,6 @@
 #ifdef _NEON
 #include <arm_neon.h>
 
-#ifdef NEON16 // 16-bit floating-point.
-
-#if defined(NEON32) || defined(NEON64)
-#error "Unsafe constant definition."
-#endif
-
-#define LOOP_OFFSET 16
-#define MEMORY_OFFSET 8
-
-namespace nass {
-    using real_t = float16_t;
-    
-    namespace internal {
-        using reals_t = float16x8_t;
-
-        constexpr real_t real_tol = 5.0E-3;
-    }
-}
-
-#else
 #ifdef NEON32 // 32-bit floating-point.
 
 #ifdef NEON64
@@ -92,7 +72,6 @@ namespace nass {
     }
 }
 
-#endif
 #endif
 
 // Multiple offsets for loop-unrolling.
