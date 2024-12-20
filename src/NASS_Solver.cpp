@@ -193,6 +193,10 @@ namespace nass {
                 for(natural_t N5 = N4 - N2; N5 < N4; ++N5)
                     Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
 
+                // Re-orthogonalization.
+                for(natural_t N5 = N4 - N2; N5 < N4; ++N5)
+                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
+
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N4 * N0, N0);
 
@@ -238,6 +242,14 @@ namespace nass {
                 Mlc_RvtNNvNvRvRv_0(Rm3 + (N4 - 1) * N3, N0, Nv2, Nv3, Rv2, Rm1 + N5 * N0);
 
                 // Orthogonalization.
+                for(natural_t N7 = 0; N7 <= N2; ++N7) {
+                    if(N5 == N7)
+                        continue;
+
+                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N7 * N0, Rm1 + N5 * N0, N0);
+                }
+
+                // Re-orthogonalization.
                 for(natural_t N7 = 0; N7 <= N2; ++N7) {
                     if(N5 == N7)
                         continue;
@@ -402,6 +414,10 @@ namespace nass {
                 for(natural_t N5 = 0; N5 < N4; ++N5)
                     Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
 
+                // Re-orthogonalization.
+                for(natural_t N5 = 0; N5 < N4; ++N5)
+                    Prj_RvtRvRvN_0(Rm1 + N4 * N0, Rm1 + N5 * N0, Rm1 + N4 * N0, N0);
+
                 // Normalization.
                 Nrz_RvtN_0(Rm1 + N4 * N0, N0);
 
@@ -429,6 +445,14 @@ namespace nass {
                 Mlc_RvtNNvNvRvRv_0(Rm1 + N5 * N0, N0, Nv0, Nv1, Rv0, Rm1 + N6 * N0);
 
                 // Orthogonalization.
+                for(natural_t N7 = 0; N7 <= N2; ++N7) {
+                    if(N5 == N7)
+                        continue;
+
+                    Prj_RvtRvRvN_0(Rm1 + N5 * N0, Rm1 + N7 * N0, Rm1 + N5 * N0, N0);
+                }
+
+                // Re-orthogonalization.
                 for(natural_t N7 = 0; N7 <= N2; ++N7) {
                     if(N5 == N7)
                         continue;
