@@ -12,8 +12,12 @@
 #define SPARSE_SKETCH
 #endif
 
+#if defined(SPARSE_SKETCH) && defined(GAUSS_SKETCH)
+#error "Unsafe constant definition."
+#endif
+
 #if defined(GAUSS_SKETCH) && defined(MEMORY_PRIORITY)
-#error "Clashing options."
+#error "Unsafe constant definition."
 #endif
 
 #ifndef NVERBOSE
