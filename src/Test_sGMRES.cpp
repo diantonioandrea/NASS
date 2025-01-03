@@ -10,10 +10,6 @@
 
 #include "./Test.hpp"
 
-#include "../include/Sparse.hpp"
-#include "../include/Solver.hpp"
-using namespace nass;
-
 int main(int argc, char** argv) {
 
     // Seeding.
@@ -24,10 +20,6 @@ int main(int argc, char** argv) {
         std::println("Usage: {} St [String, path] N [Natural, Subspace dimension] N? [Natural, Arnoldi]", argv[0]);
         return -1;
     }
-
-    // Parameters.
-    const natural_t N1 = std::atoi(argv[2]);
-    const natural_t N2 = argc > 3 ? std::atoi(argv[3]) : 4;
 
 
     // TIMED.
@@ -45,6 +37,9 @@ int main(int argc, char** argv) {
 
     // TIMED.
 
+    // Parameters.
+    const natural_t N1 = std::atoi(argv[2]);
+    const natural_t N2 = argc > 3 ? std::atoi(argv[3]) : 4;
 
     // Solution.
     real_t* Rv1 = new real_t[N0];
