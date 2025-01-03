@@ -4,7 +4,7 @@ ifeq ($(shell uname),Darwin) # Forces GCC (g++-14, homebrew) instead of Clang.
 CXX = g++-14
 endif
 
-CXXFLAGS += -Wall -std=c++23 -pedantic -I./include -march=native -Ofast -fopenmp
+CXXFLAGS += -Wall -std=c++23 -pedantic -Wno-sign-compare -I./include -march=native -Ofast -fopenmp
 LDLIBS += -lgomp
 
 # Memory priority.
