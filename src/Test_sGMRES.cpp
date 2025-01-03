@@ -34,13 +34,13 @@ int main(int argc, char** argv) {
 
 
     // Start.
-    auto T0 = high_resolution_clock::now();
+    const auto T0 = high_resolution_clock::now();
 
     // Sparse matrix.
     auto [N0, Nv0, Nv1, Rv0] = internal::Spc_St_NNvNvRv(argv[1]);
 
     // End.
-    auto T1 = high_resolution_clock::now();
+    const auto T1 = high_resolution_clock::now();
 
 
     // TIMED.
@@ -73,13 +73,13 @@ int main(int argc, char** argv) {
 
 
     // Start.
-    auto T2 = high_resolution_clock::now();
+    const auto T2 = high_resolution_clock::now();
 
     // sGMRES.
     const auto [R0, R1] = internal::sGMRES_RvNNvNvRvRvNN_RR(Rv1, N0, Nv0, Nv1, Rv0, Rv3, N1, N2);
 
     // End.
-    auto T3 = high_resolution_clock::now();
+    const auto T3 = high_resolution_clock::now();
 
 
     // TIMED.
