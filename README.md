@@ -13,6 +13,7 @@ An implementation of a [Randomized Sketched GMRES with Truncated Arnoldi Orthogo
 - [Setup](#setup)
     - [Cloning the Repository](#cloning-the-repository)
     - [Compiling Tests](#compiling-tests)
+    - [Flags](#flags)
 - [Usage](#usage)
     - [Running Tests](#running-tests)
         - [`Test_sGMRES`](#test_sgmres)
