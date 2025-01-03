@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     const auto T0 = high_resolution_clock::now();
 
     // Sparse matrix.
-    auto [N0, Nv0, Nv1, Rv0] = internal::Spc_St_NNvNvRv(argv[1]);
+    const auto [N0, Nv0, Nv1, Rv0] = internal::Spc_St_NNvNvRv(argv[1]);
 
     // End.
     const auto T1 = high_resolution_clock::now();
