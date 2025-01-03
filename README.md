@@ -35,6 +35,15 @@ Compile the tests located under `src/`:
 make
 ```
 
+### Flags
+
+Some flags in the [Makefile](./Makefile) modify the behaviour of the code.
+
+- `-DMEMORY_PRIORITY`: The algorithm prioritizes memory by building and discarding the basis and storing only the needed vectors at any given time.
+- `-DNDEBUG`: Disables debugging.
+- `-DNVERBOSE`: Disables verbosity.
+- `-DNEON32`: Enables 32-bit Neon instructions instead of (default) 64-bits instructions.
+
 ## Usage
 
 Every method developed in **NASS**, similarly to [**NAQRA**](https://github.com/diantonioandrea/NAQRA), follows a structured naming convention with three parts, separated by underscores:
