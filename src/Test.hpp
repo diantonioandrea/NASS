@@ -21,4 +21,8 @@
 #include <chrono>
 using namespace std::chrono;
 
+#include "../include/Sparse.hpp"
+#include "../include/Solver.hpp"
+using namespace nass;
+
 #endif
